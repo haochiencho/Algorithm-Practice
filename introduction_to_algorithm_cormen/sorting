@@ -1,1 +1,39 @@
-hello
+//
+//  main.cpp
+//  algorithm_practice
+//
+//  Created by Brian Cho on 6/19/16.
+//  Copyright © 2016 Cho. All rights reserved.
+//
+
+
+#include <iostream>
+#include <vector>
+
+// insertion sort
+void insertion_sort(std::vector<int> & arr){
+    int temp;
+    int n = sizeof(arr) / sizeof(int);
+    for(int i = 1; i < n; i++){
+        for(int j = 0; j < i; j++){
+            if(arr[i] <= arr[j]){
+                temp = arr[j];
+                arr[j] = arr[i];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+}
+
+// merge sort
+void merge_sort(std::vector<int> & arr){
+    
+}
+
+int main(int argc, const char * argv[]) {
+    // insert code here...
+    std::vector <int> vect = {2, 1, 2, 4, 7, 6};
+    for(int i = 0; i < sizeof(vect) / sizeof(int); i++)
+        std::cout << vect[i] << std::endl;
+    return 0;
+}
