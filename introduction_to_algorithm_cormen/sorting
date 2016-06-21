@@ -226,10 +226,65 @@ void radixSort(std::vector<int> & vect, int d){
 
 }
 
+
+// bucket sort
+struct Node{
+    int val;
+    Node* next;
+};
+
+class List{
+public:
+    List();
+    void insertNode(int val);
+    Node* getHead(void){
+        return m_head;
+    }
+private:
+    Node* m_head;
+};
+
+List::List(void){
+    m_head = nullptr;
+}
+
+void List::insertNode(int val){
+    Node* A = new Node;
+    A->val = val;
+    A->next = nullptr;
+    if(m_head == nullptr){
+        m_head = A;
+    }
+    else{
+        Node* temp = m_head;
+        while(temp->next != nullptr && temp->val < val){
+            temp = temp->next;
+        }
+        A->next = temp->next;
+        temp->next = A;
+    }
+}
+
+void bucketSort(std::vector<int> & vect){
+    std::vector<List> dataStruct(10);
+    for(int i = 0; i < vect.size(); i++){
+        dataStruct[vect[i] % 10].insertNode(vect[i]);
+    }
+    int count = 0;
+    for(int i = 0; i < 10; i++){
+        Node* nodePtr = dataStruct[i].getHead();
+        while(nodePtr != nullptr){
+            vect[count] = nodePtr->val;
+            nodePtr = nodePtr->next;
+            count++;
+        }
+    }
+}
+
 int main(int argc, const char * argv[]) {
     // insert code here...
     std::vector <int> vect = {2, 1, 2, 1, 4, 11, 7, 8};
-    insertionSort(vect);
+    bucketSort(vect);
     for(int i = 0; i < vect.size(); i++){
         std::cout << vect[i] << std::endl;
     }
