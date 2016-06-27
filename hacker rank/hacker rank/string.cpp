@@ -101,6 +101,8 @@ int main() {
 }
 */
 
+
+/*
 int r;
 int c;
 
@@ -146,3 +148,82 @@ int main(){
     }
     return 0;
 }
+ 
+ */
+
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+string addStrings(vector<string> vect){
+    string result = "";
+    int remainder = 0;
+    for(int i = 0; i < vect[vect.size() - 1].length(); i++){
+        int sum = 0;
+        int digit = 0;
+        for(int j = 0; j < vect.size(); j++){
+            int temp = vect[j].length();
+            temp -= i + 1;
+            if(temp < 0){
+                continue;
+            }
+            sum += vect[j][vect[j].length() - i - 1] - '0';
+            
+        }
+        sum += remainder;
+        digit = sum % 10;
+        result.insert(0, to_string(digit));
+        remainder = sum / 10;
+        if(i == vect[vect.size() - 1].length() - 1 && remainder != 0){
+            result.insert(0, to_string(remainder));
+        }
+    }
+    return result;
+    
+}
+
+string multStrings(string a, string b){
+    int remainder = 0;
+    int temp;
+    int digit = 0;
+    vector<string> vect;
+    for(int j = b.length() - 1; j >= 0; j--){
+        string tempStr = "";
+        for(int i = a.length() - 1; i >= 0; i--){
+            temp = (a[i] - '0') * (b[j] - '0');
+            temp += remainder;
+            digit = temp % 10;
+            remainder = temp / 10;
+            tempStr.insert(0, to_string(digit));
+            if(i == 0 && remainder != 0){
+                tempStr.insert(0, to_string(remainder));
+            }
+        }
+
+        for(int k = j; k < b.length() - 1; k++){
+            tempStr += '0';
+        }
+        vect.push_back(tempStr);
+    }
+    
+    return addStrings(vect);
+}
+
+
+int main(){
+    int n;
+    cin >> n;
+    string result, b;
+    result = '1';
+    for(int i = 2; i <= n; i++){
+        b = to_string(i);
+        result = multStrings(result, b);
+
+    }
+    cout << result;
+    return 0;
+}
+
