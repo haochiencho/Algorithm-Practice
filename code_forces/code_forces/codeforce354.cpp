@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <stack>
 #include <queue>
+#include <string>
 
 /* A
 int max(int a, int b){
@@ -52,7 +53,7 @@ int main(int argc, const char * argv[]) {
  
  */
 
-
+/* B
 struct Glass{
     double curQuality;
     double incomingRate;
@@ -124,3 +125,51 @@ int main(int argc, const char * argv[]){
     std::cout << counter << std::endl;
     return 0;
 }
+ 
+ 
+
+
+
+int main(int argc, const char * argv[]){
+    std::string input = "";
+    int n, curSwitch;
+    std::cin >> n >> curSwitch;
+    char temp;
+    for(int i = 0; i < n; i++){
+        std::cin >> temp;
+        input += temp;
+    }
+    int lastNeg = 0;
+    int curMax = 0;
+    int count = 0;
+    int negTemp = 0;
+    bool first = true;
+    for(int i = 0; i < n; i++){
+        if(input[i] == 'a')
+            count++;
+        else{
+            if(curSwitch > 0){
+                curSwitch--;
+                if(first){
+                    lastNeg = i;
+                    first = false;
+                }
+
+            }
+            else{
+                for(int j = lastNeg + 1; j < n; j++){
+                    if(input[j] == 'b'){
+                        lastNeg = j;
+                        break;
+                    }
+                }
+                negTemp = lastNeg;
+            }
+        }
+        if(i - negTemp + 1 > curMax)
+            curMax = i - negTemp + 1;
+    }
+    std::cout << curMax << std::endl;
+}
+ 
+ */
