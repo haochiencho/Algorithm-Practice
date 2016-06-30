@@ -13,6 +13,7 @@
 #include <stdlib.h>
 using namespace std;
 
+// # 1
 
 bool isUnique(string word){
     string prevChars = "";
@@ -167,17 +168,40 @@ void rotateMatrix(vector<vector<char> > & vect){ // rotate N x N matrix by 90 de
     }
 }
 
+bool zeroMatrix(vector<vector<int> > vect){ // check if a M x N matrix contains all zeroes on any row or column
+    int checksum;
+    for(int i = 0; i < vect[0].size(); i++){
+        checksum = 0;
+        for(int j = 0; j < vect.size(); j++){
+            checksum |= vect[j][i];
+        }
+        if(checksum == 0)
+            return true;
+    }
+    
+    for(int j = 0; j < vect.size(); j++){
+        checksum = 0;
+        for(int i =  0; i < vect[0].size(); i++){
+            checksum |= vect[j][i];
+        }
+        if(checksum == 0)
+            return true;
+    }
+    return false;
+
+}
+
 int main(int argc, const char * argv[]) {
     // insert code here...
     string a = "";
     string b = "abaa c";
-    vector<vector<char> > vect;
+    vector<vector<int> > vect;
     for(int i = 0; i < 5; i++){
-        vector<char> temp;
+        vector<int> temp;
         for(int j = 0; j < 5; j++)
-            temp.push_back(static_cast<char>(j));
+            temp.push_back(j);
         vect.push_back(temp);
     }
-    rotateMatrix(vect);
+    cout << zeroMatrix(vect);
     return 0;
 }
