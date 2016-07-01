@@ -191,6 +191,21 @@ bool zeroMatrix(vector<vector<int> > vect){ // check if a M x N matrix contains 
 
 }
 
+bool isSubstring(string a, string b){
+    // isRotation problem assumes that the isSubstring functions properly
+    return true;
+}
+
+bool isRotation(string a, string b){ // is one string a rotation of another
+    if(a.length() != b.length())
+        return false;
+    b += b;
+    if(isSubstring(a, b))
+        return true;
+    else
+        return false;
+}
+
 int main(int argc, const char * argv[]) {
     // insert code here...
     string a = "";
