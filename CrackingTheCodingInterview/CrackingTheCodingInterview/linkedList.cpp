@@ -160,6 +160,19 @@ Node* kthToLast(int k, LinkedList list){ // return the kth to last element
     return tracePtr;
 }
 
+Node* kthToLastRecursion(int k, Node* head, int & i){
+    if(head == nullptr){
+        return nullptr;
+    }
+    Node* node = kthToLastRecursion(k, head->next, i);
+    i++;
+    
+    if(i == k){
+        return head;
+    }
+    return node;
+}
+
 void deleteMiddleNode(LinkedList & list){ // delete the node in the middle
     Node* ptr = list.getHead();
     Node* runner = list.getHead();
@@ -181,7 +194,11 @@ int main(int argc, char* argv[]){
     list.insert(3, list);
     list.insert(1, list);
     list.insert(1, list);
-    deleteMiddleNode(list);
+    int i, j;
+    i = 3;
+    j = 0;
+    Node* nodePtr = list.getHead();
+    Node* ptr = kthToLastRecursion(i, nodePtr, j);
     
     cout << "hello world";
 }
