@@ -142,6 +142,37 @@ void removeDup(LinkedList & list){ // remove duplicates without buffer
     }
 }
 
+Node* kthToLast(int k, LinkedList list){ // return the kth to last element
+    if(list.getHead() == nullptr)
+        return nullptr;
+    Node* ptr = list.getHead();
+    int counter = k - 1;
+    Node* tracePtr = nullptr;
+    while(ptr != nullptr){
+        if(tracePtr != nullptr)
+            tracePtr = tracePtr->next;
+        if(counter == 0){
+            tracePtr = list.getHead();
+        }
+        counter--;
+        ptr = ptr->next;
+    }
+    return tracePtr;
+}
+
+void deleteMiddleNode(LinkedList & list){ // delete the node in the middle
+    Node* ptr = list.getHead();
+    Node* runner = list.getHead();
+    while(runner != nullptr){
+        if(runner != list.getHead())
+            ptr = ptr->next;
+        runner = runner->next;
+        if(runner != nullptr)
+            runner = runner->next;
+    }
+    list.deleteNode(ptr, list);
+}
+
 int main(int argc, char* argv[]){
 
     LinkedList list;
@@ -150,7 +181,7 @@ int main(int argc, char* argv[]){
     list.insert(3, list);
     list.insert(1, list);
     list.insert(1, list);
-    removeDup(list);
+    deleteMiddleNode(list);
     
     cout << "hello world";
 }
