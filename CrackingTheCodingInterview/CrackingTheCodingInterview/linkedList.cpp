@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <vector>
+#include <string>
 using namespace std;
 
 
@@ -186,6 +187,34 @@ void deleteMiddleNode(LinkedList & list){ // delete the node in the middle
     list.deleteNode(ptr, list);
 }
 
+void partitionList(Node* head, int pivot){ // partitions all elements less than the pivot left of the element
+    // and all elements greater than equal to the pivot right of the element
+    LinkedList Left;
+    LinkedList Right;
+    Node* ptr = head;
+    while(ptr != nullptr){
+        if(ptr->val < pivot)
+            Left.insert(ptr->val, Left);
+        else
+            Right.insert(ptr->val, Right);
+        ptr = ptr->next;
+    }
+    Node* leftPtr = Left.getHead();
+    Node* rightPtr = Right.getHead();
+    ptr = head;
+    while(ptr != nullptr){
+        if(leftPtr != nullptr){
+            ptr->val = leftPtr->val;
+            leftPtr = leftPtr->next;
+        }
+        else{
+            ptr->val = rightPtr->val;
+            rightPtr = rightPtr->next;
+        }
+        ptr = ptr->next;
+    }
+}
+
 int sumLists(Node* head1, Node* head2){ // adds two linked lists in reverse order
     // (7 -> 1) + (5 -> 2) = 42
     int remainder = 0;
@@ -214,7 +243,49 @@ int sumLists(Node* head1, Node* head2){ // adds two linked lists in reverse orde
     if(remainder != 0)
         sum->insert(0, to_string(remainder));
     return stoi(*sum, nullptr, 10);
+}
 
+int sumListsInOrder(Node* head1, Node* head2){ // add two linked lists in order
+    // (7 -> 1) + (5 -> 2) = 123
+    string* firstList = new string;
+    string* secondList = new string;
+    Node* ptr = head1;
+    Node* ptr2 = head2;
+    while(ptr != nullptr){
+        firstList->append(to_string(ptr->val));
+        ptr = ptr->next;
+    }
+    while(ptr2 != nullptr){
+        secondList->append(to_string(ptr2->val));
+        ptr2 = ptr2->next;
+    }
+    int i = 0;
+    string* output = new string;
+    int remainder = 0;
+    int temp;
+    while(i < firstList->length() || i < secondList->length()){
+        if(i >= firstList->length()){
+            temp = ((*secondList)[secondList->length() - i - 1] - '0') + remainder;
+            output->insert(0, to_string(temp % 10));
+            remainder = temp / 10;
+        }
+        else if(i >= secondList->length()){
+            temp = ((*firstList)[firstList->length() - i - 1] - '0') + remainder;
+            output->insert(0, to_string(temp % 10));
+            remainder = temp / 10;
+        }
+        else{
+            temp = ((*secondList)[secondList->length() - i - 1] - '0') + ((*firstList)[firstList->length() - i - 1] - '0') + remainder;
+            output->insert(0, to_string(temp % 10));
+            remainder = temp / 10;
+        }
+        i++;
+    }
+    if(remainder != 0){
+        output->insert(0, to_string(remainder));
+    }
+    return 0;
+}
 
 int main(int argc, char* argv[]){
     
@@ -224,11 +295,18 @@ int main(int argc, char* argv[]){
     list.insert(3, list);
     list.insert(1, list);
     list.insert(1, list);
+    
+    LinkedList list2;
+    list2.insert(9, list2);
+    list2.insert(1, list2);
     int i, j;
     i = 3;
-    j = 0;
+    j = 2;
     Node* nodePtr = list.getHead();
-    Node* ptr = kthToLastRecursion(i, nodePtr, j);
-    
+    partitionList(nodePtr, j);
+    string* sum = new string;
+    sum->append("5");
+    sum->insert(0, "4");
+    int temp = sumListsInOrder(list.getHead(), list2.getHead());
     cout << "hello world";
 }
