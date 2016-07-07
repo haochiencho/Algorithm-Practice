@@ -311,6 +311,24 @@ bool isPalindrome(Node* head, int length){ // returns true if linked list is a p
         return true;
 }
 
+Node* intersection(Node* head1, Node* head2){ // return the node the intersects both list
+    Node* ptr = head1;
+    vector<Node*> vect;
+    while(ptr != nullptr){
+        vect.push_back(ptr);
+        ptr = ptr->next;
+    }
+    Node* ptr2 = head2;
+    while(ptr2 != nullptr){
+        for(int i = 0; i < vect.size(); i++){
+            if(ptr2 == vect[i])
+                return ptr2;
+        }
+        ptr2 = ptr2->next;
+    }
+    return nullptr;
+}
+
 int main(int argc, char* argv[]){
     
     LinkedList list;
