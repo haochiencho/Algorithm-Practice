@@ -1,5 +1,5 @@
 //
-//  binarySearchTree.cpp
+//  LinkedList.cpp
 //  introductionToAlgorithmCormen
 //
 //  Created by Brian Cho on 7/4/16.
@@ -39,7 +39,7 @@ public:
     void deleteNode(Node* ptr, LinkedList & list);
     void insert(int val, LinkedList & list);
     Node* find(int val, LinkedList list);
-
+    
 private:
     Node* m_head;
     Node* m_tail;
@@ -142,15 +142,63 @@ void removeDup(LinkedList & list){ // remove duplicates without buffer
     }
 }
 
-int main(int argc, char* argv[]){
+Node* kthToLast(int k, LinkedList list){ // return the kth to last element
+    if(list.getHead() == nullptr)
+        return nullptr;
+    Node* ptr = list.getHead();
+    int counter = k - 1;
+    Node* tracePtr = nullptr;
+    while(ptr != nullptr){
+        if(tracePtr != nullptr)
+            tracePtr = tracePtr->next;
+        if(counter == 0){
+            tracePtr = list.getHead();
+        }
+        counter--;
+        ptr = ptr->next;
+    }
+    return tracePtr;
+}
 
+Node* kthToLastRecursion(int k, Node* head, int & i){
+    if(head == nullptr){
+        return nullptr;
+    }
+    Node* node = kthToLastRecursion(k, head->next, i);
+    i++;
+    
+    if(i == k){
+        return head;
+    }
+    return node;
+}
+
+void deleteMiddleNode(LinkedList & list){ // delete the node in the middle
+    Node* ptr = list.getHead();
+    Node* runner = list.getHead();
+    while(runner != nullptr){
+        if(runner != list.getHead())
+            ptr = ptr->next;
+        runner = runner->next;
+        if(runner != nullptr)
+            runner = runner->next;
+    }
+    list.deleteNode(ptr, list);
+}
+
+int main(int argc, char* argv[]){
+    
     LinkedList list;
     list.insert(2, list);
     list.insert(2, list);
     list.insert(3, list);
     list.insert(1, list);
     list.insert(1, list);
-    removeDup(list);
+    int i, j;
+    i = 3;
+    j = 0;
+    Node* nodePtr = list.getHead();
+    Node* ptr = kthToLastRecursion(i, nodePtr, j);
     
     cout << "hello world";
 }
