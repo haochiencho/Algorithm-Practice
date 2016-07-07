@@ -186,6 +186,36 @@ void deleteMiddleNode(LinkedList & list){ // delete the node in the middle
     list.deleteNode(ptr, list);
 }
 
+int sumLists(Node* head1, Node* head2){ // adds two linked lists in reverse order
+    // (7 -> 1) + (5 -> 2) = 42
+    int remainder = 0;
+    Node* ptr = head1;
+    Node* ptr2 = head2;
+    string* sum = new string;
+    while(ptr != nullptr || ptr2 != nullptr){
+        if(ptr == nullptr){
+            sum->insert(0, to_string(ptr2->val + remainder));
+            remainder = 0;
+            ptr2 = ptr2->next;
+        }
+        else if(ptr2 == nullptr){
+            sum->insert(0, to_string(ptr->val + remainder));
+            remainder = 0;
+            ptr = ptr->next;
+        }
+        else{
+            int temp = ptr->val + ptr2->val + remainder;
+            sum->insert(0, to_string(temp % 10));
+            remainder = temp / 10;
+            ptr = ptr->next;
+            ptr2 = ptr2->next;
+        }
+    }
+    if(remainder != 0)
+        sum->insert(0, to_string(remainder));
+    return stoi(*sum, nullptr, 10);
+
+
 int main(int argc, char* argv[]){
     
     LinkedList list;
