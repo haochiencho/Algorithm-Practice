@@ -287,14 +287,38 @@ int sumListsInOrder(Node* head1, Node* head2){ // add two linked lists in order
     return 0;
 }
 
+bool isPalindrome(Node* head, int length){ // returns true if linked list is a palindrome
+    if(length == 0 || length == -1)
+        return true;
+    
+    Node* ptr = head;
+    if(length == -2){ // get count
+        length += 2;
+        while(ptr != nullptr){
+            length++;
+            ptr = ptr->next;
+        }
+    }
+    ptr = head;
+    if(!isPalindrome(head->next, length - 2))
+        return false;
+    for(int i = 0; i < length - 1; i++){
+        ptr = ptr->next;
+    }
+    if(head->val != ptr->val)
+        return false;
+    else
+        return true;
+}
+
 int main(int argc, char* argv[]){
     
     LinkedList list;
     list.insert(2, list);
-    list.insert(2, list);
+    list.insert(1, list);
     list.insert(3, list);
     list.insert(1, list);
-    list.insert(1, list);
+    list.insert(2, list);
     
     LinkedList list2;
     list2.insert(9, list2);
@@ -303,10 +327,6 @@ int main(int argc, char* argv[]){
     i = 3;
     j = 2;
     Node* nodePtr = list.getHead();
-    partitionList(nodePtr, j);
-    string* sum = new string;
-    sum->append("5");
-    sum->insert(0, "4");
-    int temp = sumListsInOrder(list.getHead(), list2.getHead());
+    bool temp = isPalindrome(list.getHead(), -2);
     cout << "hello world";
 }
