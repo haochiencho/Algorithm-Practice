@@ -113,6 +113,48 @@ int myStack::min(void){
     return top().min;
 }
 
+// implement a single stack with multiple stacks (each with a limited size)
+
+class multStack{
+public:
+    multStack(int max){
+        m_max = max;
+    }
+    void push(int val);
+    void pop();
+    int top();
+private:
+    int m_max;
+    vector<stack<int> > vect;
+};
+
+void multStack::push(int val){
+    if(vect.size() == 0){
+        stack<int> temp;
+        vect.push_back(temp);
+    }
+    if(vect[vect.size() - 1].size() >= m_max){
+        stack<int> temp;
+        temp.push(val);
+        vect.push_back(temp);
+    }
+    else
+        vect[vect.size() - 1].push(val);
+}
+
+void multStack::pop(){
+    if(vect.size() == 0)
+        return;
+    if(vect[vect.size() - 1].size() <= 1)
+        vect.erase(vect.begin() + vect.size() - 1);
+    else
+        vect[vect.size() - 1].pop();
+}
+
+int multStack::top(){
+    return vect[vect.size() - 1].top();
+}
+
 int main(int argc, char* argv[]){
     myStack* stackObj = new myStack;
     stackObj->push(2);
@@ -121,5 +163,15 @@ int main(int argc, char* argv[]){
     stackObj->push(4);
     stackObj->pop();
     int temp = stackObj->min();
+    stack<int> newStack;
+    newStack.push(1);
+    
+    multStack* obj = new multStack(3);
+    obj->push(1);
+    obj->push(2);
+    obj->push(3);
+    obj->push(4);
+    obj->pop();
+    obj->pop();
     cout << "hello world";
 }
