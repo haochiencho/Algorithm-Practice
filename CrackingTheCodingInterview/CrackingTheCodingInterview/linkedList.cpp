@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <vector>
+#include <string>
 using namespace std;
 
 
@@ -186,19 +187,197 @@ void deleteMiddleNode(LinkedList & list){ // delete the node in the middle
     list.deleteNode(ptr, list);
 }
 
+void partitionList(Node* head, int pivot){ // partitions all elements less than the pivot left of the element
+    // and all elements greater than equal to the pivot right of the element
+    LinkedList Left;
+    LinkedList Right;
+    Node* ptr = head;
+    while(ptr != nullptr){
+        if(ptr->val < pivot)
+            Left.insert(ptr->val, Left);
+        else
+            Right.insert(ptr->val, Right);
+        ptr = ptr->next;
+    }
+    Node* leftPtr = Left.getHead();
+    Node* rightPtr = Right.getHead();
+    ptr = head;
+    while(ptr != nullptr){
+        if(leftPtr != nullptr){
+            ptr->val = leftPtr->val;
+            leftPtr = leftPtr->next;
+        }
+        else{
+            ptr->val = rightPtr->val;
+            rightPtr = rightPtr->next;
+        }
+        ptr = ptr->next;
+    }
+}
+
+int sumLists(Node* head1, Node* head2){ // adds two linked lists in reverse order
+    // (7 -> 1) + (5 -> 2) = 42
+    int remainder = 0;
+    Node* ptr = head1;
+    Node* ptr2 = head2;
+    string* sum = new string;
+    while(ptr != nullptr || ptr2 != nullptr){
+        if(ptr == nullptr){
+            sum->insert(0, to_string(ptr2->val + remainder));
+            remainder = 0;
+            ptr2 = ptr2->next;
+        }
+        else if(ptr2 == nullptr){
+            sum->insert(0, to_string(ptr->val + remainder));
+            remainder = 0;
+            ptr = ptr->next;
+        }
+        else{
+            int temp = ptr->val + ptr2->val + remainder;
+            sum->insert(0, to_string(temp % 10));
+            remainder = temp / 10;
+            ptr = ptr->next;
+            ptr2 = ptr2->next;
+        }
+    }
+    if(remainder != 0)
+        sum->insert(0, to_string(remainder));
+    return stoi(*sum, nullptr, 10);
+}
+
+int sumListsInOrder(Node* head1, Node* head2){ // add two linked lists in order
+    // (7 -> 1) + (5 -> 2) = 123
+    string* firstList = new string;
+    string* secondList = new string;
+    Node* ptr = head1;
+    Node* ptr2 = head2;
+    while(ptr != nullptr){
+        firstList->append(to_string(ptr->val));
+        ptr = ptr->next;
+    }
+    while(ptr2 != nullptr){
+        secondList->append(to_string(ptr2->val));
+        ptr2 = ptr2->next;
+    }
+    int i = 0;
+    string* output = new string;
+    int remainder = 0;
+    int temp;
+    while(i < firstList->length() || i < secondList->length()){
+        if(i >= firstList->length()){
+            temp = ((*secondList)[secondList->length() - i - 1] - '0') + remainder;
+            output->insert(0, to_string(temp % 10));
+            remainder = temp / 10;
+        }
+        else if(i >= secondList->length()){
+            temp = ((*firstList)[firstList->length() - i - 1] - '0') + remainder;
+            output->insert(0, to_string(temp % 10));
+            remainder = temp / 10;
+        }
+        else{
+            temp = ((*secondList)[secondList->length() - i - 1] - '0') + ((*firstList)[firstList->length() - i - 1] - '0') + remainder;
+            output->insert(0, to_string(temp % 10));
+            remainder = temp / 10;
+        }
+        i++;
+    }
+    if(remainder != 0){
+        output->insert(0, to_string(remainder));
+    }
+    return 0;
+}
+
+bool isPalindrome(Node* head, int length){ // returns true if linked list is a palindrome
+    if(length == 0 || length == -1)
+        return true;
+    
+    Node* ptr = head;
+    if(length == -2){ // get count
+        length += 2;
+        while(ptr != nullptr){
+            length++;
+            ptr = ptr->next;
+        }
+    }
+    ptr = head;
+    if(!isPalindrome(head->next, length - 2))
+        return false;
+    for(int i = 0; i < length - 1; i++){
+        ptr = ptr->next;
+    }
+    if(head->val != ptr->val)
+        return false;
+    else
+        return true;
+}
+
+Node* intersection(Node* head1, Node* head2){ // return the node the intersects both list
+    Node* ptr = head1;
+    vector<Node*> vect;
+    while(ptr != nullptr){
+        vect.push_back(ptr);
+        ptr = ptr->next;
+    }
+    Node* ptr2 = head2;
+    while(ptr2 != nullptr){
+        for(int i = 0; i < vect.size(); i++){
+            if(ptr2 == vect[i])
+                return ptr2;
+        }
+        ptr2 = ptr2->next;
+    }
+    return nullptr;
+}
+
+Node* circularList(Node* head){ // return the first node of the circular list
+    // e.g. a -> b -> c -> d -> b
+    Node* ptr = head;
+    Node* runner = head;
+    int counter = 0;
+    while(ptr != nullptr){
+        if(runner != nullptr){
+            runner = runner->next;
+            if(runner != nullptr)
+                runner = runner->next;
+        }
+        counter++;
+        ptr = ptr->next;
+        if(ptr == runner){
+            int count = 1;
+            ptr = ptr->next;
+            runner = runner->next;
+            runner = runner->next;
+            while(ptr != runner){
+                count++;
+                ptr = ptr->next;
+                runner = runner->next;
+                runner = runner->next;
+            }
+            for(int i = 0; i < (counter + count / 2) % count; i++){
+                ptr = ptr->next;
+            }
+            return ptr;
+        }
+    }
+    return ptr; // should not reach here if it is a circular list
+}
+
 int main(int argc, char* argv[]){
     
     LinkedList list;
     list.insert(2, list);
-    list.insert(2, list);
+    list.insert(1, list);
     list.insert(3, list);
     list.insert(1, list);
-    list.insert(1, list);
+    list.insert(2, list);
+    
+    LinkedList list2;
+    list2.insert(9, list2);
+    list2.insert(1, list2);
     int i, j;
     i = 3;
-    j = 0;
+    j = 2;
     Node* nodePtr = list.getHead();
-    Node* ptr = kthToLastRecursion(i, nodePtr, j);
-    
+    bool temp = isPalindrome(list.getHead(), -2);
     cout << "hello world";
 }
