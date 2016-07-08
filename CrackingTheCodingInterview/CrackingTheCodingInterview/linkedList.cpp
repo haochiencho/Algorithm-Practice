@@ -329,6 +329,39 @@ Node* intersection(Node* head1, Node* head2){ // return the node the intersects 
     return nullptr;
 }
 
+Node* circularList(Node* head){ // return the first node of the circular list
+    // e.g. a -> b -> c -> d -> b
+    Node* ptr = head;
+    Node* runner = head;
+    int counter = 0;
+    while(ptr != nullptr){
+        if(runner != nullptr){
+            runner = runner->next;
+            if(runner != nullptr)
+                runner = runner->next;
+        }
+        counter++;
+        ptr = ptr->next;
+        if(ptr == runner){
+            int count = 1;
+            ptr = ptr->next;
+            runner = runner->next;
+            runner = runner->next;
+            while(ptr != runner){
+                count++;
+                ptr = ptr->next;
+                runner = runner->next;
+                runner = runner->next;
+            }
+            for(int i = 0; i < (counter + count / 2) % count; i++){
+                ptr = ptr->next;
+            }
+            return ptr;
+        }
+    }
+    return ptr; // should not reach here if it is a circular list
+}
+
 int main(int argc, char* argv[]){
     
     LinkedList list;
