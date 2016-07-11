@@ -155,6 +155,74 @@ int multStack::top(){
     return vect[vect.size() - 1].top();
 }
 
+// implement a queue using two stacks
+
+class myQueue{
+public:
+    void push(int val);
+    int top(void);
+    void pop(void);
+private:
+    stack<int> first;
+    stack<int> second;
+};
+
+void myQueue::push(int val){
+    while(!first.empty()){
+        second.push(first.top());
+        first.pop();
+    }
+    first.push(val);
+    while(!second.empty()){
+        first.push(second.top());
+        second.pop();
+    }
+}
+
+int myQueue::top(void){
+    return first.top();
+}
+
+void myQueue::pop(void){
+    if(!first.empty()){
+        first.pop();
+    }
+}
+
+// using one stack as a temporary buffer sort a stack of integers and store it in the same stack
+
+void sortStack(stack<int> & myStack){ // bubble sort
+    stack<int> tempBuf;
+    bool isChange = true;
+    while(isChange){
+        isChange = false;
+        if(!myStack.empty()){
+            int temp = myStack.top();
+            myStack.pop();
+            if(!myStack.empty()){
+                if(temp <= myStack.top()){
+                    tempBuf.push(temp);
+                }
+                else{
+                    tempBuf.push(myStack.top());
+                    myStack.pop();
+                    myStack.push(temp);
+                }
+            }
+            else
+                tempBuf.push(temp);
+            isChange = true;
+        }
+        else{
+            while(!tempBuf.empty()){
+                myStack.push(tempBuf.top());
+                tempBuf.pop();
+            }
+        }
+    }
+}
+
+
 int main(int argc, char* argv[]){
     myStack* stackObj = new myStack;
     stackObj->push(2);
