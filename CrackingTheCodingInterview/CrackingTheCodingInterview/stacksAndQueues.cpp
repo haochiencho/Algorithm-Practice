@@ -222,6 +222,47 @@ void sortStack(stack<int> & myStack){ // bubble sort
     }
 }
 
+// adopting cats and dogs. The rule is to adopt the oldest animal. Implement three function adoptAny, adoptDog, adoptCat
+
+int adoptAny(queue<int> cat, queue<int> dog){ // int represents the animal
+    int temp;
+    if(cat.empty() && dog.empty())
+        return -1;
+    else if(cat.empty()){
+        temp = dog.front();
+        dog.pop();
+        return temp;
+    }
+    else if(dog.empty()){
+        temp = cat.front();
+        cat.pop();
+        return temp;
+    }
+    else{
+        if(cat.front() >= dog.front()){
+            temp = cat.front();
+            cat.pop();
+            return temp;
+        }
+        else{
+            temp = dog.front();
+            dog.pop();
+            return temp;
+        }
+    }
+}
+
+int adoptCat(queue<int> cat){
+    int temp = cat.front();
+    cat.pop();
+    return temp;
+}
+
+int adoptDog(queue<int> dog){
+    int temp = dog.front();
+    dog.pop();
+    return temp;
+}
 
 int main(int argc, char* argv[]){
     myStack* stackObj = new myStack;
@@ -241,5 +282,17 @@ int main(int argc, char* argv[]){
     obj->push(4);
     obj->pop();
     obj->pop();
+    
+    myQueue* queue = new myQueue;
+    queue->push(1);
+    queue->push(2);
+    temp = queue->top();
+    
+    stack<int> input;
+    input.push(2);
+    input.push(1);
+    input.push(3);
+    sortStack(input);
+    
     cout << "hello world";
 }
