@@ -76,7 +76,7 @@ struct treeNode{
     treeNode* right;
 };
 
-treeNode* binaryTree(int arr[], int start, int end, treeNode* head){
+treeNode* binaryTree(int arr[], int start, int end, treeNode *&head){
     int mid = (start + end) / 2;
     treeNode* ptr = new treeNode;
     ptr->left = nullptr;
@@ -87,7 +87,8 @@ treeNode* binaryTree(int arr[], int start, int end, treeNode* head){
     if(start == end)
         return ptr;
     
-    binaryTree(arr, start, mid - 1, head->left);
+    if(start != mid)
+        binaryTree(arr, start, mid - 1, head->left);
     binaryTree(arr, mid + 1, end, head->right);
     return head;
     
@@ -131,6 +132,9 @@ int main(int argc, char* argv[]){
     graphObj->addNodes(adjMatrix, vect, 5);
     int temp = adjMatrix[1][2];
     bool isTrue = pathExist(1, 4, adjMatrix);
+    int arr[6] = {0, 1, 2, 3, 4, uyu5};
+    treeNode* head;
+    treeNode* ptr = binaryTree(arr, 0, 4, head);
     
     cout << "hello world";
 }
