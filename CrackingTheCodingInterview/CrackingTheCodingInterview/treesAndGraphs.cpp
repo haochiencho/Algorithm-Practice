@@ -54,20 +54,44 @@ bool pathExist(int start, int end, int* adjMatrix[]){ // Depth first search
     }
     arr[start] = 1;
     while(!stack.empty()){
-        if(stack.top() == end)
+        int temp = stack.top();
+        stack.pop();
+        if(temp == end)
             return true;
         for(int i = 0; i < 5; i++){
-            if(adjMatrix[stack.top()][i] == 1){
+            if(adjMatrix[temp][i] == 1){
                 if(arr[i] == 0)
                     stack.push(i);
             }
         }
-        stack.pop();
     }
     return false;
 }
 
 // given an array of sorted (increasing) unique integers, create a balanced binary tree
+
+struct treeNode{
+    int val;
+    treeNode* left;
+    treeNode* right;
+};
+
+treeNode* binaryTree(int arr[], int start, int end, treeNode* head){
+    int mid = (start + end) / 2;
+    treeNode* ptr = new treeNode;
+    ptr->left = nullptr;
+    ptr->right = nullptr;
+    ptr->val = arr[mid];
+    head = ptr;
+    
+    if(start == end)
+        return ptr;
+    
+    binaryTree(arr, start, mid - 1, head->left);
+    binaryTree(arr, mid + 1, end, head->right);
+    return head;
+    
+}
 
 int main(int argc, char* argv[]){
     int** adjMatrix;
@@ -106,6 +130,7 @@ int main(int argc, char* argv[]){
     
     graphObj->addNodes(adjMatrix, vect, 5);
     int temp = adjMatrix[1][2];
+    bool isTrue = pathExist(1, 4, adjMatrix);
     
     cout << "hello world";
 }
