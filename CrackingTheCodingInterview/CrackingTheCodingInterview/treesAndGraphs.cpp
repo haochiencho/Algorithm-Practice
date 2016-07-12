@@ -67,6 +67,8 @@ bool pathExist(int start, int end, int* adjMatrix[]){ // Depth first search
     return false;
 }
 
+// given an array of sorted (increasing) unique integers, create a balanced binary tree
+
 int main(int argc, char* argv[]){
     int** adjMatrix;
     adjMatrix = new int *[5];
