@@ -136,7 +136,7 @@ vector<linkList*> binaryTreeDepth(treeNode* root){ // use Breadth First Search t
             curHeight = temp->height;
             output.push_back(ptr);
             ptr = new linkList;
-            
+
         }
         if(temp->left != nullptr)
             myQueue.push(temp->left);
