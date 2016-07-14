@@ -73,6 +73,7 @@ bool pathExist(int start, int end, int* adjMatrix[]){ // Depth first search
 
 struct treeNode{
     int val;
+    int height;
     treeNode* left;
     treeNode* right;
 };
@@ -99,13 +100,51 @@ treeNode* binaryTree(int arr[], int start, int end, treeNode *&head){
 
 
 
-vector<treeNode*> binaryTreeDepth(treeNode* root){ // use Breadth First Search to create a linked list for each depth
+struct linkNode{
+    int val;
+    linkNode* next;
+};
+
+class linkList{
+public:
+    void insert(int val);
+private:
+    linkNode* head;
+};
+
+void linkList::insert(int val){
+    linkNode* ptr = new linkNode;
+    if(head == nullptr)
+        head = ptr;
+    linkNode* nodePtr = head;
+    while(nodePtr->next != nullptr){
+        nodePtr = nodePtr->next;
+    }
+    nodePtr->next = ptr;
+    
+}
+
+vector<linkList*> binaryTreeDepth(treeNode* root){ // use Breadth First Search to create a linked list for each depth
     queue<treeNode*> myQueue;
     myQueue.push(root);
+    int curHeight = -1;
+    linkList* ptr;
+    vector<linkList*> output;
     while(!myQueue.empty()){
-        
+        treeNode* temp = myQueue.front();
+        if(temp->height != curHeight){
+            curHeight = temp->height;
+            output.push_back(ptr);
+            ptr = new linkList;
+
+        }
+        if(temp->left != nullptr)
+            myQueue.push(temp->left);
+        if(temp->right != nullptr)
+            myQueue.push(temp->right);
+        ptr->insert(temp->val);
     }
-    
+    return output;
 }
 
 int main(int argc, char* argv[]){
