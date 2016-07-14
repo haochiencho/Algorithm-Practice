@@ -136,7 +136,7 @@ vector<linkList*> binaryTreeDepth(treeNode* root){ // use Breadth First Search t
             curHeight = temp->height;
             output.push_back(ptr);
             ptr = new linkList;
-
+            
         }
         if(temp->left != nullptr)
             myQueue.push(temp->left);
@@ -150,6 +150,42 @@ vector<linkList*> binaryTreeDepth(treeNode* root){ // use Breadth First Search t
 // check if a binary tree is balanced
 
 bool isBalanced(treeNode* root){
+    if(root == nullptr)
+        return true;
+    int curLevel = 0;
+    int nullLevel;
+    bool isNull = false;
+    treeNode* ptr = root;
+    queue<treeNode*> myQueue;
+    myQueue.push(root);
+    myQueue.push(nullptr);
+    while(1){
+        if(isNull && (curLevel - nullLevel > 0)){
+            return false;
+        }
+        while(!myQueue.empty()){
+            treeNode* temp = myQueue.front();
+            myQueue.pop();
+            if(temp == nullptr)
+                break;
+            if(temp->left != nullptr)
+                myQueue.push(temp->left);
+            else if(!isNull){
+                nullLevel = curLevel + 1;
+                isNull = true;
+            }
+            if(temp->right != nullptr)
+                myQueue.push(temp->left);
+            else if(!isNull){
+                nullLevel = curLevel + 1;
+                isNull = true;
+            }
+        }
+        if(myQueue.empty())
+            return true;
+        myQueue.push(nullptr);
+        curLevel++;
+    }
     
 }
 
