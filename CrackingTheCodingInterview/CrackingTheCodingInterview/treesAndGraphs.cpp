@@ -147,6 +147,10 @@ vector<linkList*> binaryTreeDepth(treeNode* root){ // use Breadth First Search t
     return output;
 }
 
+// check if a binary tree is balanced
+
+
+
 int main(int argc, char* argv[]){
     int** adjMatrix;
     adjMatrix = new int *[5];
