@@ -149,6 +149,10 @@ vector<linkList*> binaryTreeDepth(treeNode* root){ // use Breadth First Search t
 
 // check if a binary tree is balanced
 
+bool isBalanced(treeNode* root){
+    
+}
+
 
 
 int main(int argc, char* argv[]){
