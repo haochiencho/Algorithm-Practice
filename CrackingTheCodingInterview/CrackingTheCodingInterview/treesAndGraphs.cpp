@@ -189,6 +189,8 @@ bool isBalanced(treeNode* root){
     
 }
 
+// given a list of dependecies, output an order that nodes can be traversed
+
 // find the first common ancestor, given two tree nodes
 
 
