@@ -189,6 +189,20 @@ bool isBalanced(treeNode* root){
     
 }
 
+bool isValid(treeNode* root){ // return true if tree is a valid binary search tree
+    if(root == nullptr)
+        return true;
+    if(root->left != nullptr && root->val < root->left->val)
+        return false;
+    if(root->right != nullptr && root->val > root->right->val)
+        return false;
+    if(isValid(root->left) && isValid(root->right))
+        return true;
+    else
+        return false;
+}
+
+
 // given a list of dependecies, output an order that nodes can be traversed
 
 // find the first common ancestor, given two tree nodes
@@ -197,7 +211,6 @@ treeNode* commonAncestor(treeNode* A, treeNode* B){
     return node;
     
 }
-
 
 int main(int argc, char* argv[]){
     int** adjMatrix;
