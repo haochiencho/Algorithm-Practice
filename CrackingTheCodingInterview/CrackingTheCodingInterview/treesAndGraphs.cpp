@@ -219,9 +219,18 @@ bool findNode(treeNode* head, treeNode* node){
 
 }
 
-treeNode* commonAncestor(treeNode* A, treeNode* B){
-    return node;
-    
+treeNode* commonAncestor(treeNode* A, treeNode* B, treeNode* head){
+    if(findNode(head, A) && findNode(head, B))
+        return head;
+    if(findNode(head->left, A) && head->left == B)
+        return head->left;
+    if(findNode(head->right, A) && head->right == B)
+        return head->right;
+    if(head->left != nullptr)
+        return commonAncestor(A, B, head->left);
+    if(head->right != nullptr)
+        return commonAncestor(A, B, head->right);
+    return nullptr;
 }
 
 int main(int argc, char* argv[]){
