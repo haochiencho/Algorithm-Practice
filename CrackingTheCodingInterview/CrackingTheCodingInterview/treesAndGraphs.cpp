@@ -207,6 +207,18 @@ bool isValid(treeNode* root){ // return true if tree is a valid binary search tr
 
 // find the first common ancestor, given two tree nodes
 
+bool findNode(treeNode* head, treeNode* node){
+    if(head == node)
+        return true;
+    if(head == nullptr)
+        return false;
+    if(findNode(head->right, node) || findNode(head->left, node))
+        return true;
+    else
+        return false;
+
+}
+
 treeNode* commonAncestor(treeNode* A, treeNode* B){
     return node;
     
