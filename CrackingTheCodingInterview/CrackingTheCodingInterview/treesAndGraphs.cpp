@@ -211,9 +211,33 @@ bool isValid(treeNode* root){ // return true if tree is a valid binary search tr
 
 vector<int> listDependecies(vector<vector<int> > vect){
     vector<int> arr(vect.size(), 0);
-    for(int i = 1; i < vect.size(); i++){
-        
+    map<int, int> myMap;
+    for(int i = 0; i < vect[0].size(); i++){
+        myMap[vect[0][i]] = i;
     }
+    for(int i = 1; i < vect.size(); i++){
+        arr[myMap[vect[i][0]]]++;
+    }
+    queue<int> myQueue;
+    for(int i = 0; i < arr.size(); i++){
+        if(arr[i] == 0){
+            myQueue.push(i);
+        }
+    }
+    vector<int> output;
+    while(!myQueue.empty()){
+        int temp = myQueue.front();
+        myQueue.pop();
+        for(int i = 1; i < vect.size(); i++){
+            if(vect[i][1] == temp){
+                arr[myMap[vect[i][0]]]--;
+                if(arr[myMap[vect[i][0]]] == 0)
+                    myQueue.push(vect[i][0]);
+            }
+        }
+        output.push_back(temp);
+    }
+    return output;
 }
 
 // find the first common ancestor, given two tree nodes
