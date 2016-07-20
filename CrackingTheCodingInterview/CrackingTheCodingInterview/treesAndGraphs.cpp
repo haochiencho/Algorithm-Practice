@@ -2,7 +2,7 @@
 //  treesAndGraphs.cpp
 //  introductionToAlgorithmCormen
 //
-//  Created by Brian Cho on 7/11/16.
+//  Created by Brian Cho on 7/12/16.
 //  Copyright © 2016 Cho. All rights reserved.
 //
 
@@ -205,6 +205,10 @@ bool isValid(treeNode* root){ // return true if tree is a valid binary search tr
 
 // given a list of dependecies, output an order that nodes can be traversed
 
+vector<int> listDependecies(vector<vector<int> > vect){
+    
+}
+
 // find the first common ancestor, given two tree nodes
 
 bool findNode(treeNode* head, treeNode* node){
@@ -216,7 +220,6 @@ bool findNode(treeNode* head, treeNode* node){
         return true;
     else
         return false;
-
 }
 
 treeNode* commonAncestor(treeNode* A, treeNode* B, treeNode* head){
