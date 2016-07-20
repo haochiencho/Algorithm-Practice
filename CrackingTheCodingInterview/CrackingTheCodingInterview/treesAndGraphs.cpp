@@ -15,6 +15,7 @@
 #include <string>
 #include <stack>
 #include <queue>
+#include <map>
 using namespace std;
 
 
@@ -205,8 +206,14 @@ bool isValid(treeNode* root){ // return true if tree is a valid binary search tr
 
 // given a list of dependecies, output an order that nodes can be traversed
 
+// {1, 2, 3, 4}, {1, 2}, {2, 3}
+// 1 depends on 2. 2 depends on 3.
+
 vector<int> listDependecies(vector<vector<int> > vect){
-    
+    vector<int> arr(vect.size(), 0);
+    for(int i = 1; i < vect.size(); i++){
+        
+    }
 }
 
 // find the first common ancestor, given two tree nodes
