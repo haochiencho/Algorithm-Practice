@@ -267,6 +267,21 @@ treeNode* commonAncestor(treeNode* A, treeNode* B, treeNode* head){
     return nullptr;
 }
 
+// given an binary search tree. Print all possible orders that they could have been inserted
+
+vector<vector<int> > printPossibleOrder(treeNode* head, string temp, int level){
+    vector<vector<int> > output;
+    if(head->left == nullptr && head->right == nullptr){
+        for(int i = 0; i < temp.size(); i++){
+            vector<int> holder;
+            holder.push_back(temp[i] - '0');
+        }
+        output.push_back(holder);
+        return output;
+    }
+    
+}
+
 int main(int argc, char* argv[]){
     int** adjMatrix;
     adjMatrix = new int *[5];
