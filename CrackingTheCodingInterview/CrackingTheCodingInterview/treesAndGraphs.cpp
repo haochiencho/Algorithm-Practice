@@ -269,17 +269,21 @@ treeNode* commonAncestor(treeNode* A, treeNode* B, treeNode* head){
 
 // given an binary search tree. Print all possible orders that they could have been inserted
 
-vector<vector<int> > printPossibleOrder(treeNode* head, string temp, int level){
-    vector<vector<int> > output;
+vector<string> printPossibleOrder(treeNode* head){
+    string* output = new string;
+    vector<string> result;
     if(head->left == nullptr && head->right == nullptr){
-        for(int i = 0; i < temp.size(); i++){
-            vector<int> holder;
-            holder.push_back(temp[i] - '0');
-        }
-        output.push_back(holder);
-        return output;
+        output->append(to_string(head->val));
+        result.push_back(*output);
+        return result;
     }
-    // recursive step
+    vector<string> left;
+    vector<string> right;
+    if(head->left != nullptr)
+        left = printPossibleOrder(head->left);
+    if(head->right != nullptr)
+        right = printPossibleOrder(head->right);
+    return combineTwoVectString(left, right, to_string(head->val));
     
 }
 
