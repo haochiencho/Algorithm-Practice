@@ -283,7 +283,7 @@ vector<string> printPossibleOrder(treeNode* head){
         left = printPossibleOrder(head->left);
     if(head->right != nullptr)
         right = printPossibleOrder(head->right);
-    return combineTwoVectString(left, right, to_string(head->val));
+    return combineTwoVectString(left, right, to_string(head->val)); // returns a list of all possible orders recursively
     
 }
 
