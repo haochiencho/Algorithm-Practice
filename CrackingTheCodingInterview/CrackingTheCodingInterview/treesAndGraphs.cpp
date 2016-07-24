@@ -269,6 +269,7 @@ treeNode* commonAncestor(treeNode* A, treeNode* B, treeNode* head){
 
 // given an binary search tree. Print all possible orders that they could have been inserted
 
+/*
 vector<string> printPossibleOrder(treeNode* head){
     string* output = new string;
     vector<string> result;
@@ -286,6 +287,7 @@ vector<string> printPossibleOrder(treeNode* head){
     return combineTwoVectString(left, right, to_string(head->val)); // returns a list of all possible orders recursively
     
 }
+*/
 
 // given two trees (the first being bigger than the second) check if the second is a subtree of the first
 
@@ -294,6 +296,29 @@ struct TreeNode{
     int val;
 };
 
+bool isIdentical(TreeNode* A, TreeNode* B){
+    if(A != B)
+        return false;
+    if(A->vect.size() != B->vect.size())
+        return false;
+    for(int i = 0; i < A->vect.size(); i++){
+        isIdentical(A->vect[i], B->vect[i]);
+    }
+    return true;
+}
+
+bool isSubtree(TreeNode* A, TreeNode* B){
+    if(A == nullptr)
+        return false;
+    if(A == B)
+        return isIdentical(TreeNode* A, TreeNode* B);
+    for(int i = 0; i < A->vect.size(); i++){
+        if(isSubtree(A->vect[i], B))
+            return true;
+    }
+    return false;
+}
+ 
 int main(int argc, char* argv[]){
     int** adjMatrix;
     adjMatrix = new int *[5];
