@@ -287,6 +287,13 @@ vector<string> printPossibleOrder(treeNode* head){
     
 }
 
+// given two trees (the first being bigger than the second) check if the second is a subtree of the first
+
+struct TreeNode{
+    vector<TreeNode*> vect;
+    int val;
+};
+
 int main(int argc, char* argv[]){
     int** adjMatrix;
     adjMatrix = new int *[5];
