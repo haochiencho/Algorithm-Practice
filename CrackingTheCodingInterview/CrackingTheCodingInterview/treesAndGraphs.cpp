@@ -323,7 +323,13 @@ bool isSubtree(TreeNode* A, TreeNode* B){
 
 
 
-vector<treeNode*> allPath(treeNode* head, int sum, treeNode)
+vector<vector<treeNode> > allPath(treeNode* head, int sum, vector<treeNode> & vect){
+    vector<vector<treeNode> > output;
+    if(head == nullptr)
+        return output;
+    vect.push_back(*head);
+    
+}
  
 int main(int argc, char* argv[]){
     int** adjMatrix;
