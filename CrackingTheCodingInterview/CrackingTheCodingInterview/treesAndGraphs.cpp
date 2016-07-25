@@ -311,13 +311,19 @@ bool isSubtree(TreeNode* A, TreeNode* B){
     if(A == nullptr)
         return false;
     if(A == B)
-        return isIdentical(TreeNode* A, TreeNode* B);
+        return isIdentical(A, B);
     for(int i = 0; i < A->vect.size(); i++){
         if(isSubtree(A->vect[i], B))
             return true;
     }
     return false;
 }
+
+// given a tree with values associated with each node, print all paths that matches a certain sum
+
+
+
+vector<treeNode*> allPath(treeNode* head, int sum, treeNode)
  
 int main(int argc, char* argv[]){
     int** adjMatrix;
