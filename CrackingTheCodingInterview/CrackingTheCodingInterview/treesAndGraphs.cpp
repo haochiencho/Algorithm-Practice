@@ -323,12 +323,22 @@ bool isSubtree(TreeNode* A, TreeNode* B){
 
 
 
-vector<vector<treeNode> > allPath(treeNode* head, int sum, vector<treeNode> & vect){
+vector<vector<treeNode> > allPath(treeNode* head, int sum, vector<treeNode> & vect, int curSum){
     vector<vector<treeNode> > output;
     if(head == nullptr)
         return output;
     vect.push_back(*head);
-    
+    vector<treeNode> leftVect;
+    allPath(head->left, sum, leftVect, curSum + head->left->val);
+    if(leftVect.size() != 0)
+        output.push_back(leftVect);
+    vector<treeNode> rightVect;
+    allPath(head->right, sum, rightVect, curSum + head->right->val);
+    if(rightVect.size() != 0)
+        output.push_back(rightVect);
+    if(sum == curSum)
+        output.push_back(vect);
+    return output;
 }
  
 int main(int argc, char* argv[]){
