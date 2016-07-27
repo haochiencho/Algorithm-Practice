@@ -27,12 +27,17 @@ int longestChain(string input){
     int curChain = 0;
     int prevChain = 0;
     int longestChain = 0;
+    bool firstZero = false;
     for(int i = 0; i < input.length(); i++){
         if(input[i] == '1')
             curChain++;
         if(input[i] == '0'){
             curChain -= prevChain;
             prevChain = curChain;
+            curChain++;
+            if(firstZero)
+                curChain--;
+            firstZero = true;
             if(input[i - 1] == '0'){
                 prevChain = 0;
                 curChain = 0;
@@ -41,9 +46,10 @@ int longestChain(string input){
         if(curChain > longestChain)
             longestChain = curChain;
     }
+    return longestChain;
 }
 
- 
+
 int main(int argc, char* argv[]){
     cout << "hello world";
 }
