@@ -49,7 +49,7 @@ int longestChain(string input){
     return longestChain;
 }
 
-//
+// use bit manipulation
 
 
 int main(int argc, char* argv[]){
