@@ -32,6 +32,37 @@ int insertPos(int N, int M, int i, int j){
     return N;
 }
 
+// check if a double can be represented as a float
+
+string CharToBits(char input){
+    string* result = new string;
+    for(int i = 0; i < sizeof(input) * 4; i++){
+        string temp = "";
+        temp += input & (1 << i);
+        result->append(temp);
+    }
+    return *result;
+}
+
+bool canRepresent(double input){
+    union {
+        double val;
+        char charRep[sizeof(double)];
+    };
+    val = input;
+    string* stringInput = new string;
+    for(int i = 0; i < sizeof(double); i++){
+        stringInput->append(CharToBits(charRep[i]));
+    }
+    int expMask = 0;
+    for(int i = 1; i <= 11; i++){
+        expMask |= 0X8000 >> i;
+    }
+    
+
+    return 1;
+}
+
 // given a string of 1's and 0's, output the longest chain of 1's flipping at most one bit
 // e.g. input 110001111011
 // output 7
