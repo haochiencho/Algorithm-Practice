@@ -18,6 +18,19 @@
 #include <map>
 using namespace std;
 
+// given two integers (N, M) and two positions (i, j) insert M starting at ith to jth
+
+int insertPos(int N, int M, int i, int j){
+    int mask = 0;
+    for(int k = i; k <= j; k++){
+        mask |= 1 << k;
+    }
+    M <<= i;
+    M &= mask;
+    N &= ~mask;
+    N |= M;
+    return N;
+}
 
 // given a string of 1's and 0's, output the longest chain of 1's flipping at most one bit
 // e.g. input 110001111011
