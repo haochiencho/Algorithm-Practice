@@ -18,6 +18,7 @@
 #include <map>
 using namespace std;
 
+
 // given two integers (N, M) and two positions (i, j) insert M starting at ith to jth
 
 int insertPos(int N, int M, int i, int j){
@@ -34,6 +35,8 @@ int insertPos(int N, int M, int i, int j){
 
 // check if a double can be represented as a float
 
+
+/*
 string CharToBits(char input){
     string* result = new string;
     for(int i = 0; i < sizeof(input) * 4; i++){
@@ -62,6 +65,8 @@ bool canRepresent(double input){
 
     return 1;
 }
+ */
+
 
 // given a string of 1's and 0's, output the longest chain of 1's flipping at most one bit
 // e.g. input 110001111011
@@ -93,8 +98,36 @@ int longestChain(string input){
     return longestChain;
 }
 
-// use bit manipulation
+// given the an integer print the next smallest and largest integer with the same number of 1s in its representation
 
+void nextInt(int input){
+    int firstOne = -1;
+    int firstZero = -1;
+    int secondOne = -1;
+    int secondZero = -1;
+    for(int i = 0; i < 32; i++){
+        if((1 << i) & input)
+        {
+            if(firstOne != -1)
+                firstOne = i;
+            if(firstZero != -1 && secondOne == -1)
+                secondOne = i;
+        }
+        else{
+            if(firstZero != -1)
+                firstZero = i;
+            if(firstOne != -1 && secondZero == -1)
+                secondZero = i;
+        }
+    }
+    int nextInt = input;
+    int prevInt = input;
+    nextInt |= 1 << secondZero;
+    nextInt &= (1 << (secondZero - 1));
+    cout << nextInt;
+    prevInt |= 1 << secondOne;
+    prevInt &= (1 << (secondOne - 1));
+}
 
 int main(int argc, char* argv[]){
     cout << "hello world";
