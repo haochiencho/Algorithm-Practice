@@ -108,13 +108,13 @@ void nextInt(int input){
     for(int i = 0; i < 32; i++){
         if((1 << i) & input)
         {
-            if(firstOne != -1)
+            if(firstOne == -1)
                 firstOne = i;
             if(firstZero != -1 && secondOne == -1)
                 secondOne = i;
         }
         else{
-            if(firstZero != -1)
+            if(firstZero == -1)
                 firstZero = i;
             if(firstOne != -1 && secondZero == -1)
                 secondZero = i;
@@ -123,12 +123,14 @@ void nextInt(int input){
     int nextInt = input;
     int prevInt = input;
     nextInt |= 1 << secondZero;
-    nextInt &= (1 << (secondZero - 1));
-    cout << nextInt;
-    prevInt |= 1 << secondOne;
-    prevInt &= (1 << (secondOne - 1));
+    nextInt &= ~(1 << (secondZero - 1));
+    cout << nextInt << endl;
+    prevInt &= ~(1 << secondOne);
+    prevInt |= 1 << (secondOne - 1);
+    cout << prevInt << endl;
 }
 
 int main(int argc, char* argv[]){
-    cout << "hello world";
+    int a = 11;
+    nextInt(a);
 }
