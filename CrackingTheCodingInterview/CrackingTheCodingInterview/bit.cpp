@@ -130,7 +130,10 @@ void nextInt(int input){
     cout << prevInt << endl;
 }
 
+
 int main(int argc, char* argv[]){
     int a = 11;
     nextInt(a);
+    int b = 13;
+    nextInt(b);
 }
