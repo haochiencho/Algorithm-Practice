@@ -130,9 +130,10 @@ void nextInt(int input){
     cout << prevInt << endl;
 }
 
+// change from 2's complement to 1's complement representation
+
 
 int main(int argc, char* argv[]){
-    // testing
     int a = 11;
     nextInt(a);
     int b = 13;
