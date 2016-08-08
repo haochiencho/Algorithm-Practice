@@ -132,6 +132,8 @@ void nextInt(int input){
 
 // change from 2's complement to 1's complement representation
 
+// (n & (n - 1) == 0.
+// this statement only holds true for values of 2, 1, 0.
 
 int main(int argc, char* argv[]){
     int a = 11;
