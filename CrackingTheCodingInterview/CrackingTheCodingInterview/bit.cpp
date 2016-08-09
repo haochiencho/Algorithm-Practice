@@ -135,6 +135,17 @@ void nextInt(int input){
 // (n & (n - 1) == 0.
 // this statement only holds true for values of 2, 1, 0.
 
+// given two integers, output the number of bits that must be flipped to make one equal the other.
+
+int numBits(int A, int B){
+    int count = 0;
+    for(int i = 0; i < 32; i++){
+        if(((1 << i) & A) != ((1 << i) & B))
+            count++;
+    }
+    return count;
+}
+
 int main(int argc, char* argv[]){
     int a = 11;
     nextInt(a);
