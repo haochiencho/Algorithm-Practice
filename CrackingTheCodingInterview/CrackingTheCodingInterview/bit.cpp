@@ -160,9 +160,43 @@ void pairWiseSwap(int &input){
     }
 }
 
+// A monochrome screen is stored as a single array of bytes, allowing eight consecutive pixels to be stored in one byte.
+// Implement a function that draws a horizontal line from (x1, y) to (x2, y)
+
+void drawLine(char* screen, int width, int x1, int x2, int y){
+    // let 0 value to equal a horizontal line
+    char* temp = &screen[y];
+    for(int i = 0; i < x1 / 8; i++){
+        temp++;
+    }
+    for(int i = x1 % 8; i < 8; i++){
+        char mask = 1 << i;
+        int a = (~mask & (*temp));
+        char b = a;
+        *temp = b;
+    }
+    temp++;
+    int start, end;
+    start += 8 - (x1 % 8);
+    end -= x2 % 8;
+    for(int i = (end - start) / 8; i > 0; i--){
+        *temp = '0';
+        temp++;
+    }
+    
+    for(int i = 0; i <= x2 % 8; i++){
+        char mask = 1 << i;
+        int a = (~mask & (*temp));
+        char b = a;
+        *temp = b;
+    }
+}
+
 int main(int argc, char* argv[]){
     int a = 11;
     int b = 13;
     pairWiseSwap(b);
     cout << a;
+    char screen[] = "hello";
+    drawLine(screen, 5, 5, 5, 5);
 }
