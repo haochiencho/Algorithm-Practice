@@ -154,16 +154,15 @@ void pairWiseSwap(int &input){
     for(int i = 0; i < 32; i++){
         mask = 1 << i;
         if(i % 2 == 0)
-            input = ((~mask) & input) | (leftShift & mask);
-        else
             input = ((~mask) & input) | (rightShift & mask);
+        else
+            input = ((~mask) & input) | (leftShift & mask);
     }
 }
 
 int main(int argc, char* argv[]){
     int a = 11;
-    nextInt(a);
     int b = 13;
-    nextInt(b);
-    cout << numBits(a, b);
+    pairWiseSwap(b);
+    cout << a;
 }
