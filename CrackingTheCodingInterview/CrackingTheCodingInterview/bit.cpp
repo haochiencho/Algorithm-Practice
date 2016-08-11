@@ -37,34 +37,34 @@ int insertPos(int N, int M, int i, int j){
 
 
 /*
-string CharToBits(char input){
-    string* result = new string;
-    for(int i = 0; i < sizeof(input) * 4; i++){
-        string temp = "";
-        temp += input & (1 << i);
-        result->append(temp);
-    }
-    return *result;
-}
-
-bool canRepresent(double input){
-    union {
-        double val;
-        char charRep[sizeof(double)];
-    };
-    val = input;
-    string* stringInput = new string;
-    for(int i = 0; i < sizeof(double); i++){
-        stringInput->append(CharToBits(charRep[i]));
-    }
-    int expMask = 0;
-    for(int i = 1; i <= 11; i++){
-        expMask |= 0X8000 >> i;
-    }
-    
-
-    return 1;
-}
+ string CharToBits(char input){
+ string* result = new string;
+ for(int i = 0; i < sizeof(input) * 4; i++){
+ string temp = "";
+ temp += input & (1 << i);
+ result->append(temp);
+ }
+ return *result;
+ }
+ 
+ bool canRepresent(double input){
+ union {
+ double val;
+ char charRep[sizeof(double)];
+ };
+ val = input;
+ string* stringInput = new string;
+ for(int i = 0; i < sizeof(double); i++){
+ stringInput->append(CharToBits(charRep[i]));
+ }
+ int expMask = 0;
+ for(int i = 1; i <= 11; i++){
+ expMask |= 0X8000 >> i;
+ }
+ 
+ 
+ return 1;
+ }
  */
 
 
@@ -146,9 +146,24 @@ int numBits(int A, int B){
     return count;
 }
 
+// pairwise swap: given an integer swap all even with all odd bits
+void pairWiseSwap(int &input){
+    int leftShift = input << 1;
+    int rightShift = input >> 1;
+    int mask;
+    for(int i = 0; i < 32; i++){
+        mask = 1 << i;
+        if(i % 2 == 0)
+            input = ((~mask) & input) | (leftShift & mask);
+        else
+            input = ((~mask) & input) | (rightShift & mask);
+    }
+}
+
 int main(int argc, char* argv[]){
     int a = 11;
     nextInt(a);
     int b = 13;
     nextInt(b);
+    cout << numBits(a, b);
 }
