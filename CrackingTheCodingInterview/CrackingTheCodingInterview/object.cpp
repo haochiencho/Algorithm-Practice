@@ -105,6 +105,18 @@ bool BlackJack::comparedWithDealer(Player player){
 }
 
 
+// there are 3 levels of employees: respondents, managers, and directors. they must deal with the clients calles and passes it
+// to their superior if they cannot handle it
+
+class Employee{
+public:
+    Employee(int diffCap){
+        difficultyCap = diffCap;
+    }
+private:
+    int difficultyCap;
+};
+
 
 
 int main(int argc, char* argv[]){
