@@ -108,6 +108,11 @@ bool BlackJack::comparedWithDealer(Player player){
 // there are 3 levels of employees: respondents, managers, and directors. they must deal with the clients calles and passes it
 // to their superior if they cannot handle it
 
+struct Customer{
+    int difficulty;
+    int time;
+};
+
 class Employee{
 public:
     Employee(int diffCap){
@@ -117,7 +122,43 @@ private:
     int difficultyCap;
 };
 
+class Director : public Employee{
+public:
+    Director()
+    : Employee(INT_MAX){}
+    void handleCall(Customer cust);
+    bool isFree();
+private:
+    bool free;
+};
 
+class Manager : public Employee{
+public:
+    Manager(int diffCap, vector<Director> superior)
+    : Employee(diffCap){
+        upper = superior;
+        free = true;
+    }
+    void handleCall(Customer cust);
+    bool isAvailable();
+private:
+    vector<Director> upper;
+    bool free;
+};
+
+class Respondent : public Employee{
+public:
+    Respondent(int diffCap, vector<Manager> superior)
+    : Employee(diffCap){
+        upper = superior;
+        free = true;
+    }
+    void handleCall(Customer cust);
+    bool isAvailable();
+private:
+    vector<Manager> upper;
+    bool free;
+};
 
 int main(int argc, char* argv[]){
     cout << "hello world!";
