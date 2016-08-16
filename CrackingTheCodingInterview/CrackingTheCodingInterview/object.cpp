@@ -160,6 +160,23 @@ private:
     bool free;
 };
 
+void Respondent::handleCall(Customer cust){
+    if(difficultyCap < cust.difficulty){
+        for(int i = 0; i < upper.size(); i++){
+            if(upper[i].isAvailable()){
+                free = false;
+                // pause for time of cust
+                free = true;
+            }
+        }
+    }
+    else{
+        free = false;
+        // pause for time of cust
+        free = true;   
+    }
+}
+
 int main(int argc, char* argv[]){
     cout << "hello world!";
 }
