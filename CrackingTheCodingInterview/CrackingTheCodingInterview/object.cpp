@@ -118,6 +118,9 @@ public:
     Employee(int diffCap){
         difficultyCap = diffCap;
     }
+    int getDifCap(){
+        return difficultyCap;
+    }
 private:
     int difficultyCap;
 };
@@ -161,7 +164,7 @@ private:
 };
 
 void Respondent::handleCall(Customer cust){
-    if(difficultyCap < cust.difficulty){
+    if(getDifCap() < cust.difficulty){
         for(int i = 0; i < upper.size(); i++){
             if(upper[i].isAvailable()){
                 free = false;
@@ -173,9 +176,25 @@ void Respondent::handleCall(Customer cust){
     else{
         free = false;
         // pause for time of cust
-        free = true;   
+        free = true;
     }
 }
+
+
+// design a juke box with object oriented principles
+
+struct Song{
+    string name;
+    int duration;
+};
+
+class JukeBox{
+public:
+    void addSong(string name, int duration);
+    Song shufflePlay();
+private:
+    vector<Song> song;
+};
 
 int main(int argc, char* argv[]){
     cout << "hello world!";
