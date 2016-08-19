@@ -67,6 +67,43 @@ vector<vector<int> > findPathRecur(vector<vector<int> > grid, vector<int> start,
     return curPath; // function will never reach this point
 }
 
+vector<vector<int> > findPathDFS(vector<vector<int> > grid){
+    stack<vector<int> > curPath;
+    stack<vector<int> > allPath;
+    vector<vector<int> > visited;
+    vector<int> curStep(2, 0);
+    allPath.push(curStep);
+    for(int i = 0; i < grid.size(); i++){
+        vector<int> temp(grid[0].size(), 0);
+        visited.push_back(temp);
+    }
+    visited[0][0] = 1;
+    while(!allPath.empty()){
+        vector<int> temp;
+        temp = allPath.top();
+        allPath.pop();
+        visited[temp[0]][temp[1]] = 1;
+        curPath.push(temp);
+        temp[0]++;
+        if(visited[temp[0]][temp[1]] && grid[temp[0]][temp[1]]){
+            allPath.push(temp);
+        }
+        temp[0]--;
+        temp[1]++;
+        if(visited[temp[0]][temp[1]] && grid[temp[0]][temp[1]]){
+            allPath.push(temp);
+        }
+        if((visited[temp[0] + 1][temp[1]] || grid[temp[0]+ 1][temp[1]]) && (visited[temp[0]][temp[1] + 1] || grid[temp[0]][temp[1] + 1]))
+            curPath.pop();
+    }
+    vector<vector<int> > output;
+    while(!curPath.empty()){
+        output.insert(output.begin(), curPath.top());
+        curPath.pop();
+    }
+    return output;
+}
+
 int main(int argc, char* argv[]){
     cout << stairDP(5);
 }
