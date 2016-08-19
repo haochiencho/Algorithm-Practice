@@ -117,8 +117,23 @@ int magicIndexRecur(int arr[], int start, int end){
         return magicIndexRecur(arr, start, mid - 1);
     else
         return magicIndexRecur(arr, mid + 1, end);
+}
 
-    
+// given a set of integers, output all possible sets
+
+vector<vector<int> > allSets(vector<int> set){ // pass in a single empty set for curSet
+    vector<vector<int> > curSet;
+    vector<int> emptySet;
+    curSet.push_back(emptySet);
+    for(int i = 0; i < set.size(); i++){
+        int n = curSet.size();
+        for(int j = 0; j < n; j++){
+            vector<int> temp = curSet[j];
+            temp.push_back(set[i]);
+            curSet.push_back(temp);
+        }
+    }
+    return curSet;
 }
 
 int main(int argc, char* argv[]){
