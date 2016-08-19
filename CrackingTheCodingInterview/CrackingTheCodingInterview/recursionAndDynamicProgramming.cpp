@@ -104,6 +104,23 @@ vector<vector<int> > findPathDFS(vector<vector<int> > grid){
     return output;
 }
 
+// given a sorted array of distinct integers, find a magic index.
+// a magic index is the index equaling the value of index. A[i] = i
+
+int magicIndexRecur(int arr[], int start, int end){
+    if(start > end)
+        return -1;
+    int mid = (start + end) / 2;
+    if(arr[mid] == mid)
+        return mid;
+    else if(arr[mid] > mid)
+        return magicIndexRecur(arr, start, mid - 1);
+    else
+        return magicIndexRecur(arr, mid + 1, end);
+
+    
+}
+
 int main(int argc, char* argv[]){
     cout << stairDP(5);
 }
