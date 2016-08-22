@@ -1,0 +1,48 @@
+/*
+ ID: soulnew1
+ PROG: ride
+ LANG: C++
+ */
+
+#define INT_MAX 2147483647
+#define INT_MIN -2147483648
+
+#include <stdio.h>
+#include <iostream>
+#include <vector>
+#include <string>
+#include <stack>
+#include <queue>
+#include <map>
+#include <fstream>
+using namespace std;
+
+int main() {
+    ofstream fout ("ride.out");
+    ifstream file ("ride.in");
+    string input[3];
+    string txt;
+    int i = 0;
+    if(file.is_open()){
+        while(!file.eof()){
+            getline(file, txt);
+            input[i] = txt;
+            i++;
+        }
+    }
+    file.close();
+    int mult = 1;
+    int mult1 = 1;
+    cout << input[0] << input[1];
+    for(int i = 0; i < input[0].length(); i++){
+        mult *= (input[0][i] - 'A') + 1;
+    }
+    for(int i = 0; i < input[1].length(); i++){
+        mult1 *= (input[1][i] - 'A') + 1;
+    }
+    if(mult % 47 == mult1 % 47)
+        fout << "GO" << endl;
+    else
+        fout << "STAY" << endl;
+    return 0;
+}
