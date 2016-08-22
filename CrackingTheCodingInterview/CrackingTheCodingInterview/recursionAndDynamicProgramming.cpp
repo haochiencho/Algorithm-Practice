@@ -136,6 +136,17 @@ vector<vector<int> > allSets(vector<int> set){ // pass in a single empty set for
     return curSet;
 }
 
+// towers of hanoi
+
+int numSteps(int numDisks){
+    if(numDisks <= 0)
+        return 0;
+    else if(numDisks == 1)
+        return 1;
+    return 2 * numSteps(numDisks - 1) + 1;
+}
+
 int main(int argc, char* argv[]){
-    cout << stairDP(5);
+    cout << stairDP(5) << endl;
+    cout << numSteps(3);
 }
