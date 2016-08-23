@@ -1,6 +1,6 @@
 /*
  ID: soulnew1
- PROG: ride
+ PROG: friday
  LANG: C++
  */
 
@@ -15,7 +15,10 @@
 #include <queue>
 #include <map>
 #include <fstream>
+#include <assert.h>
 using namespace std;
+
+/*
 
 int main() {
     ofstream fout ("ride.out");
@@ -45,4 +48,85 @@ int main() {
     else
         fout << "STAY" << endl;
     return 0;
+}
+*/
+
+/*
+int main(){
+    ofstream fout ("gift1.out");
+    ifstream file ("gift1.in");
+    string txt;
+    int input, n;
+    string temp;
+    map<string, int> name2num;
+    map<int, string> num2name;
+    vector<int> val;
+    string trash;
+    if(file.is_open()){
+        file >> input;
+        getline(file, trash);
+        for(int i = 0; i < input; i++){
+            getline(file, txt);
+            name2num[txt] = i;
+            num2name[i] = txt;
+            val.push_back(0);
+        }
+        while(!file.eof()){
+            getline(file, txt);
+            if(txt == "")
+                continue;
+            file >> input >> n;
+            getline(file, trash);
+            if(n == 0)
+                continue;
+            for(int i = 0; i < n; i++){
+                getline(file, temp);
+                val[name2num[temp]] += input / n;
+                val[name2num[txt]] -= input / n;
+            }
+        }
+    }
+    for(int i = 0; i < val.size(); i++){
+        fout << num2name[i] << " " << val[i] << endl;
+    }
+}
+*/
+
+bool isLeapYear(int n){
+    if(n == 100)
+        return true;
+    else if(n % 100 == 0)
+        return false;
+    else if(n % 4 == 0)
+        return true;
+    else
+        return false;
+}
+
+int main(){
+    FILE *fin, *fout;
+    fin = fopen("friday.in", "r");
+    fout = fopen("friday.out", "w");
+    
+    int n = 0;
+    fscanf(fin, "%d", &n);
+    vector<int> days(7, 0);
+    int curDay = 0;
+    int month[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    for(int i = 0; i < n; i++){
+        for(int j = 0; j < 12; j++){
+            days[(curDay + 13 - 1) % 7]++;
+            curDay += month[j];
+            if(j == 1 && isLeapYear(i))
+                curDay++;
+        }
+    }
+    for(int i = 0; i < days.size(); i++){
+        if(i == 6)
+            fprintf(fout, "%d", days[(5 + i) % 7]);
+        else
+            fprintf(fout, "%d ", days[(5 + i) % 7]);
+        
+    }
+    fprintf(fout, "\n");
 }
