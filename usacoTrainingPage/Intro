@@ -1,6 +1,6 @@
 /*
  ID: soulnew1
- PROG: friday
+ PROG: beads
  LANG: C++
  */
 
@@ -19,79 +19,80 @@
 using namespace std;
 
 /*
-
-int main() {
-    ofstream fout ("ride.out");
-    ifstream file ("ride.in");
-    string input[3];
-    string txt;
-    int i = 0;
-    if(file.is_open()){
-        while(!file.eof()){
-            getline(file, txt);
-            input[i] = txt;
-            i++;
-        }
-    }
-    file.close();
-    int mult = 1;
-    int mult1 = 1;
-    cout << input[0] << input[1];
-    for(int i = 0; i < input[0].length(); i++){
-        mult *= (input[0][i] - 'A') + 1;
-    }
-    for(int i = 0; i < input[1].length(); i++){
-        mult1 *= (input[1][i] - 'A') + 1;
-    }
-    if(mult % 47 == mult1 % 47)
-        fout << "GO" << endl;
-    else
-        fout << "STAY" << endl;
-    return 0;
-}
-*/
+ 
+ int main() {
+ ofstream fout ("ride.out");
+ ifstream file ("ride.in");
+ string input[3];
+ string txt;
+ int i = 0;
+ if(file.is_open()){
+ while(!file.eof()){
+ getline(file, txt);
+ input[i] = txt;
+ i++;
+ }
+ }
+ file.close();
+ int mult = 1;
+ int mult1 = 1;
+ cout << input[0] << input[1];
+ for(int i = 0; i < input[0].length(); i++){
+ mult *= (input[0][i] - 'A') + 1;
+ }
+ for(int i = 0; i < input[1].length(); i++){
+ mult1 *= (input[1][i] - 'A') + 1;
+ }
+ if(mult % 47 == mult1 % 47)
+ fout << "GO" << endl;
+ else
+ fout << "STAY" << endl;
+ return 0;
+ }
+ */
 
 /*
-int main(){
-    ofstream fout ("gift1.out");
-    ifstream file ("gift1.in");
-    string txt;
-    int input, n;
-    string temp;
-    map<string, int> name2num;
-    map<int, string> num2name;
-    vector<int> val;
-    string trash;
-    if(file.is_open()){
-        file >> input;
-        getline(file, trash);
-        for(int i = 0; i < input; i++){
-            getline(file, txt);
-            name2num[txt] = i;
-            num2name[i] = txt;
-            val.push_back(0);
-        }
-        while(!file.eof()){
-            getline(file, txt);
-            if(txt == "")
-                continue;
-            file >> input >> n;
-            getline(file, trash);
-            if(n == 0)
-                continue;
-            for(int i = 0; i < n; i++){
-                getline(file, temp);
-                val[name2num[temp]] += input / n;
-                val[name2num[txt]] -= input / n;
+ int main(){
+     ofstream fout ("gift1.out");
+     ifstream file ("gift1.in");
+     string txt;
+     int input, n;
+     string temp;
+     map<string, int> name2num;
+     map<int, string> num2name;
+     vector<int> val;
+     string trash;
+     if(file.is_open()){
+     file >> input;
+     getline(file, trash);
+     for(int i = 0; i < input; i++){
+         getline(file, txt);
+         name2num[txt] = i;
+         num2name[i] = txt;
+         val.push_back(0);
+     }
+     while(!file.eof()){
+         getline(file, txt);
+         if(txt == "")
+             continue;
+         file >> input >> n;
+         getline(file, trash);
+         if(n == 0)
+             continue;
+         for(int i = 0; i < n; i++){
+             getline(file, temp);
+             val[name2num[temp]] += input / n;
+             val[name2num[txt]] -= input / n;
             }
-        }
-    }
-    for(int i = 0; i < val.size(); i++){
-        fout << num2name[i] << " " << val[i] << endl;
-    }
-}
-*/
+         }
+     }
+     for(int i = 0; i < val.size(); i++){
+         fout << num2name[i] << " " << val[i] << endl;
+     }
+ }
+ */
 
+/*
 bool isLeapYear(int n){
     if(n == 100)
         return true;
@@ -129,4 +130,94 @@ int main(){
         
     }
     fprintf(fout, "\n");
+}
+*/
+
+int max2(int a, int b){
+    if(a > b)
+        return a;
+    else
+        return b;
+}
+
+int maxPair(vector<int> vect){
+    return max2(vect[0], vect[1]) + max2(vect[2], vect[3]);
+}
+
+int main(){
+    ifstream file("beads.in");
+    ofstream fout("beads.out");
+    string input;
+    int n = 0;
+    int i = 0;
+    vector<string> vect;
+    while(getline(file, input)){
+        if(i == 0){
+            n = stoi(input);
+            i++;
+            continue;
+        }
+        vect.push_back(input);
+    }
+    int maxLen = 0;
+    vector<int> curLen(4, 0);
+    for(int i = 0; i < n; i++){
+        int mark = i - 1;
+        if(mark < 0)
+            mark += n;
+        for(int j = i; j != mark; j++){
+            if(curLen[0] >= n)
+                break;
+            if(j >= n)
+                j = 0;
+            if(vect[0][j] == 'w' || vect[0][j] == 'b'){
+                curLen[0]++;
+            }
+            else
+                break;
+        }
+        for(int j = i - 1; j != i; j--){
+            if(curLen[1] >= n)
+                break;
+            if(j < 0)
+                j = n - 1;
+            if(vect[0][j] == 'w' || vect[0][j] == 'b'){
+                curLen[1]++;
+            }
+            else
+                break;
+        }
+        for(int j = i; j != mark; j++){
+            if(curLen[2] >= n)
+                break;
+            if(j >= n)
+                j = 0;
+            if(vect[0][j] == 'w' || vect[0][j] == 'r'){
+                curLen[2]++;
+            }
+            else
+                break;
+        }
+        for(int j = i - 1; j != i; j--){
+            if(curLen[3] >= n)
+                break;
+            if(j < 0)
+                j = n - 1;
+            if(vect[0][j] == 'w' || vect[0][j] == 'r'){
+                curLen[3]++;
+            }
+            else
+                break;
+        }
+        int temp = maxPair(curLen);
+        if(temp > maxLen){
+            maxLen = temp;
+        }
+        if(maxLen > n)
+            maxLen = n;
+        for(int j = 0; j < 4; j++)
+            curLen[j] = 0;
+    }
+    fout << maxLen << endl;
+    
 }
