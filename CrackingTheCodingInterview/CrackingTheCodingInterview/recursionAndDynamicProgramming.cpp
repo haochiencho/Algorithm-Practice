@@ -146,7 +146,34 @@ int numSteps(int numDisks){
     return 2 * numSteps(numDisks - 1) + 1;
 }
 
+// compute all permutations of a string that contains only unique characters
+
+void swap2(string& input, int pos1, int pos2){
+    char temp = input[pos1];
+    input[pos1] = input[pos2];
+    input[pos2] = temp;
+}
+
+vector<string> allPerm(string input, vector<string> output, int length){
+    if(length == 0)
+        return output;
+    if(length == 1){
+        output.push_back(input);
+        return output;
+    }
+    vector<string> temp = allPerm(input, output, length - 1);
+    output.insert(output.end(), temp.begin(), temp.end());
+    for(int i = 0; i < length - 1; i++){
+        swap2(input, i, length - 1);
+        temp = allPerm(input, output, length - 1);
+        output.insert(output.end(), temp.begin(), temp.end());
+    }
+    return output;
+}
+
 int main(int argc, char* argv[]){
     cout << stairDP(5) << endl;
-    cout << numSteps(3);
+    cout << numSteps(3) << endl;
+    vector<string> temp;
+    vector<string> output = allPerm("ABC", temp, 4);
 }
