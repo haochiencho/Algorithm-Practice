@@ -171,9 +171,77 @@ vector<string> allPerm(string input, vector<string> output, int length){
     return output;
 }
 
+// output all possible ordering of parentheses
+
+vector<string> allParentheses(int n){
+    vector<string> output;
+    if(n <= 0)
+        return output;
+    if(n == 1){
+        output.push_back("()");
+        return output;
+    }
+    vector<string> temp = allParentheses(n - 1);
+    int size = temp.size();
+    for(int i = 0; i < size; i++){
+        string str = temp[i];
+        temp.push_back(str.insert(0, "()"));
+        str = temp[i];
+        str.insert(temp[i].size(), "()");
+        if(str != temp[temp.size() - 1])
+            temp.push_back(str);
+        str = temp[i];
+        str.insert(0, "(");
+        str.insert(str.size(), ")");
+        temp[i] = str;
+    }
+    return temp;
+}
+
+// paint fill: given a 2d vector of pixels, a point, and a color, change all regions next to the point of the same color to a specified color
+
+vector<vector<int> > paintFill(vector<vector<int> > canvas, int x, int y, int color, int initColor){
+    if(x < 0 || x >= canvas[0].size())
+        return canvas;
+    if(y < 0 || y >= canvas.size())
+        return canvas;
+    if(canvas[x][y] != initColor)
+        return canvas;
+    else{
+        canvas[x][y] = color;
+        paintFill(canvas, x, y - 1, color, initColor);
+        paintFill(canvas, x + 1, y, color, initColor);
+        paintFill(canvas, x, y + 1, color, initColor);
+        paintFill(canvas, x - 1, y, color, initColor);
+        return canvas;
+    }
+}
+
+// output the number of ways to represent n cents with quarters, dimes, nickels, and pennies.
+int numWays(int cents){
+    if(cents < 5)
+        return 0;
+    int sum = 0;
+    int nickel, dime, quarter;
+    nickel = cents / 5;
+    dime = cents / 10;
+    quarter = cents / 25;
+    sum += nickel + dime + quarter;
+    if(cents % 10 == 0 && dime > 0)
+        sum += dime - 1;
+    else
+        sum += dime;
+    sum += numWays(cents - 25);
+    sum += 1;
+    return sum;
+}
+
+
 int main(int argc, char* argv[]){
     cout << stairDP(5) << endl;
     cout << numSteps(3) << endl;
     vector<string> temp;
-    vector<string> output = allPerm("ABC", temp, 4);
+    vector<string> output = allParentheses(3);
+    cout << numWays(30) << endl;
+    
 }
