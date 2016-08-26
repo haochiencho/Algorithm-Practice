@@ -236,6 +236,194 @@ int numWays(int cents){
     return sum;
 }
 
+// 8 queens on a 8x8 chess board
+
+vector<vector<int> > updateMap(vector<vector<int> > map, int x, int y){
+    map[x][y] = 2;
+    for(int i = 0; i < 8; i++){
+        if(map[x][i] == 0)
+            map[x][i] = 1;
+        if(map[i][y] == 0)
+            map[i][y] = 1;
+    }
+    for(int i = 1; i < 8; i++){
+        if(x - i < 0 || y - i < 0 )
+            break;
+        if(map[x - i][y - i] == 0)
+            map[x - i][y - i] = 1;
+    }
+    for(int i = 1; i < 8; i++){
+        if(x + i < 0 || y - i < 0 )
+            break;
+        if(map[x + i][y - i] == 0)
+            map[x + i][y - i] = 1;
+    }
+    for(int i = 1; i < 8; i++){
+        if(x - i < 0 || y + i < 0 )
+            break;
+        if(map[x - i][y + i] == 0)
+            map[x - i][y + i] = 1;
+    }
+    for(int i = 1; i < 8; i++){
+        if(x + i < 0 || y + i < 0 )
+            break;
+        if(map[x + i][y + i] == 0)
+            map[x + i][y + i] = 1;
+    }
+    return map;
+}
+
+vector<vector<vector<int> > > allPoss8Queens(vector<vector<int> > map, int x, int y, int numQueen){
+    vector<vector<vector<int> > > output;
+    if(y >= 8)
+        return output;
+    for(int i = 0; i < 8; i++){
+        if(map[x][i] == 0){
+             vector<vector<vector<int> > > temp = allPoss8Queens(updateMap(map, i, y), i, y, numQueen + 1);
+            output.insert(output.end(), temp.begin(), temp.end());
+        }
+    }
+    if(numQueen == 8)
+        output.push_back(map);
+    return output;
+}
+
+// stacking boxes: boxes can only be stacked if the height, width and length of the box underneath is greater than
+// the 3 dimensions of the box above. calculate the max height
+
+bool greaterthan(vector<int> a, vector<int> b){
+    if(a[3] > b[3])
+        return true;
+    else
+        return false;
+}
+
+
+
+vector<vector<int> > mergeSort(vector<vector<int> > vect, int begin, int end){ // sort by height
+    vector<vector<int> > output;
+    if(begin == end){
+        output.push_back(vect[begin]);
+        return output;
+    }
+    int mid = (begin + end) / 2;
+    vector<vector<int> > vect1 = mergeSort(vect, begin, mid);
+    vector<vector<int> > vect2 = mergeSort(vect, mid + 1, end);
+    int i, j;
+    i = 0;
+    j = 0;
+    while(i >= vect1.size() && j >= vect2.size()){
+        if(i >= vect1.size()){
+            output.push_back(vect[j]);
+            j++;
+        }
+        if(j >= vect2.size()){
+            output.push_back(vect[i]);
+            i++;
+        }
+        if(greaterthan(vect[i], vect[j])){
+            output.push_back(vect[j]);
+            j++;
+        }
+        else{
+            output.push_back(vect[i]);
+            i++;
+        }
+    }
+    return output;
+}
+
+int maxHeight(int numBoxes, vector<vector<int> > box){
+    vector<vector<int> > sortedBox = mergeSort(box, 0, numBoxes - 1);
+    vector<vector<int> > result; // curHeight, bottom length, bottom width
+    vector<int> temp(3, 0);
+    for(int i = 0; i < numBoxes; i++){
+        if(i == 0){
+            temp[0] = sortedBox[i][2];
+            temp[1] = sortedBox[i][0];
+            temp[2] = sortedBox[i][1];
+            result.push_back(temp);
+            continue;
+        }
+        int j;
+        for(j = sortedBox.size() - 1; j >= 0; j--){
+            if(sortedBox[i][2] > result[j][0] && sortedBox[i][0] > result[j][1] && sortedBox[i][1] > result[j][2])
+                break;
+        }
+        if(j < 0){
+            if(result[result.size() - 1][0] > sortedBox[i][2]){
+                temp[0] = result[result.size() - 1][0];
+                temp[1] = result[result.size() - 1][1];
+                temp[2] = result[result.size() - 1][2];
+                result.push_back(temp);
+            }
+            else{
+                temp[0] = sortedBox[i][2];
+                temp[1] = sortedBox[i][0];
+                temp[2] = sortedBox[i][1];
+                result.push_back(temp);
+            }
+        }
+        else{
+            if(result[j][0] + sortedBox[i][2] > result[result.size() - 1][0]){
+                temp[0] = result[j][0] + sortedBox[i][2];
+                temp[1] = sortedBox[i][0];
+                temp[2] = sortedBox[i][1];
+                result.push_back(temp);
+            }
+            else{
+                temp[0] = result[result.size() - 1][0];
+                temp[1] = result[result.size() - 1][1];
+                temp[2] = result[result.size() - 1][2];
+                result.push_back(temp);
+            }
+        }
+    }
+    return result[result.size() - 1][0];
+}
+
+// output the number of possible orders that will yield in that result
+// eg. 1^0|1, false = 1
+
+int boolPoss(string input, int answer){
+    vector<string> vect;
+    vect.push_back(input);
+    int prevSize;
+    string temp;
+    while(1){
+        if(vect[0].size() <= 1)
+            break;
+        for(int i = 0; i < vect[0].size();){
+            temp = vect[0];
+            if(vect[0][i + 1] == '^'){
+                string holder = to_string(stoi(vect[i]) ^ stoi(vect[i + 2]));
+                temp.insert(vect[0].begin(), holder.begin(), holder.end());
+                temp.erase(i, 3);
+                
+            }
+            else if(vect[0][i + 1] == '&'){
+                string holder = to_string(stoi(vect[i]) & stoi(vect[i + 2]));
+                temp.insert(vect[0].begin(), holder.begin(), holder.end());
+                temp.erase(i, 3);
+            }
+            else{
+                string holder = to_string(stoi(vect[i]) | stoi(vect[i + 2]));
+                temp.insert(vect[0].begin(), holder.begin(), holder.end());
+                temp.erase(i, 3);
+            }
+            vect.push_back(temp);
+            i += 2;
+        }
+        vect.erase(vect.begin());
+    }
+    int count = 0;
+    for(int i = 0; i < vect.size(); i++){
+        if(stoi(vect[i]) == answer)
+            count++;
+    }
+    return count;
+}
+
 
 int main(int argc, char* argv[]){
     cout << stairDP(5) << endl;
