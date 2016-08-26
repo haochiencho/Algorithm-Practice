@@ -426,6 +426,7 @@ int boolPoss(string input, int answer){
 
 
 int main(int argc, char* argv[]){
+    // testing
     cout << stairDP(5) << endl;
     cout << numSteps(3) << endl;
     vector<string> temp;
