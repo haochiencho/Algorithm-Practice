@@ -1,0 +1,65 @@
+//
+//  systemDesignAndScalability.cpp
+//  introductionToAlgorithmCormen
+//
+//  Created by Brian Cho on 8/28/16.
+//  Copyright © 2016 Cho. All rights reserved.
+//
+
+#define INT_MAX 2147483647
+#define INT_MIN -2147483648
+
+#include <stdio.h>
+#include <iostream>
+#include <vector>
+#include <string>
+#include <stack>
+#include <queue>
+#include <map>
+using namespace std;
+
+// Breath First Search from two nodes in a graph
+// each node has a linked list of all its friends
+
+struct Node{
+    string name;
+    long long id;
+    Node* friends;
+};
+
+
+bool bidirectionBFS(Node A, Node B){ // returns the path
+    vector<bool> isVisitedSource(100, false); // list of all nodes
+    vector<bool> isVisitedDest(100, false);
+    queue<Node> source;
+    queue<Node> dest;
+    source.push(A);
+    dest.push(B);
+    Node sourceTemp, destTemp;
+    while((!source.empty()) && (!dest.empty())){
+        sourceTemp = source.front();
+        destTemp = dest.front();
+        isVisitedSource[sourceTemp.id] = true;
+        isVisitedDest[destTemp.id] = true;
+        if(isVisitedDest[sourceTemp.id])
+            return true;
+        if(isVisitedSource[destTemp.id])
+            return true;
+        Node* temp = sourceTemp.friends;
+        while(temp != nullptr){
+            if(!isVisitedSource[temp->id])
+                source.push(*temp);
+            temp = temp->next;
+        }
+        while(temp != nullptr){
+            if(!isVisitedDest[temp->id])
+                dest.push(*temp);
+            temp = temp->next;
+        }
+    }
+}
+
+
+int main(int argc, char* argv[]){
+    
+}
