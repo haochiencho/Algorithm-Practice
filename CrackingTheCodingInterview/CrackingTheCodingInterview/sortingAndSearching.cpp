@@ -77,6 +77,27 @@ void anagram(vector<string> & vect){
     }
 }
 
+// given a sorted that has been rotated a integer number of times, return the number of times that it has been rotated
+
+int numRotation(vector<int> vect){
+    int begin = 0;
+    int end = vect.size() - 1;
+    int mid;
+    while(begin <= end){
+        if(vect[begin] < vect[end])
+            return end + 1;
+        if(begin == end)
+            return begin;
+        mid = (begin + end) / 2;
+        if(vect[mid] < vect[begin]){
+            end = mid - 1;
+        }
+        else if(vect[mid] > vect[end]){
+            begin = mid + 1;
+        }
+    }
+    return 0;
+}
 
 int main(int argc, char* argv[]){
 
