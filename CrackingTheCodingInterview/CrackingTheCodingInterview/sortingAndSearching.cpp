@@ -140,6 +140,57 @@ int findIndex(int val, vector<int> vect){
     return 0;
 }
 
+// given a large vector of strings, sorted them
+
+void swap(vector<string> & vect, int i, int j){
+    string temp = vect[i];
+    vect[i] = vect[j];
+    vect[j] = temp;
+}
+
+void sortStrings(vector<string> & vect){ // radix sort without additional memory
+    int max = 0;
+    for(int i = 0; i < vect.size(); i++){
+        if(vect[i].length() > max)
+            max = vect[i].length();
+    }
+
+    for(int i = 0; i < max; i++){
+        vector<int> countLetter(27, 0);
+        vector<int> curCount(27, 0);
+        for(int j = 0; j < vect.size(); j++){
+            if(i >= vect[j].length()){
+                countLetter[0]++;
+            }
+            else{
+                countLetter[vect[j][vect[j].length() - i - 1] - 'a' + 1]++;
+            }
+        }
+        int curIndex = 0;
+        int counter = 0;
+        for(int j = 0; j < vect.size();){
+            if(counter >= countLetter[curIndex]){
+                counter = 0;
+                curIndex++;
+                j += curCount[curIndex];
+                continue;
+            }
+            int index;
+            if(i >= vect[j].length()){
+                curCount[0]++;
+                index = 0;
+            }
+            else{
+                index = vect[j][vect[i].length() - i - 1] - 'a' + 1;
+                curCount[index]++;
+            }
+            counter++;
+            swap(vect, j, countLetter[index] - curCount[index]);
+        }
+    }
+
+}
+
 int main(int argc, char* argv[]){
 
     int arr1[] = {1, 3, 5};
@@ -147,5 +198,6 @@ int main(int argc, char* argv[]){
     vector<int> A(arr1, arr1 + sizeof(arr1) / sizeof(int));
     vector<int> B(arr2, arr2 + sizeof(arr2) / sizeof(int));
     vector<int> temp = merge(A, B);
-    
+    string name = "wendy";
+    char letter = name[0];
 }
