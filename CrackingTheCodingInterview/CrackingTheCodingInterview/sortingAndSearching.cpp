@@ -99,6 +99,47 @@ int numRotation(vector<int> vect){
     return 0;
 }
 
+// given sorted vector of ints without a size function and elementAt(i) function that returns the element of the ith index
+// and returns -1 if the vector out of bounds
+
+int elementAt(int index){
+    return index; // the given function supposely returns the element at that index
+}
+
+int findIndex(int val, vector<int> vect){
+    int i = 1;
+    while(1){
+        if(elementAt(i) == -1)
+            break;
+        if(elementAt(i) < val){
+            i *= 2;
+        }
+        else
+            break;
+    }
+    int begin = i;
+    int end = 2 * i;
+    int mid;
+    while(begin <= end){
+        mid = (begin + end) / 2;
+        if(vect[mid] == -1){
+            end = mid - 1;
+            continue;
+        }
+        if(vect[mid] == val)
+            return mid;
+        if(vect[mid] < val){
+            end = mid - 1;
+            continue;
+        }
+        else{
+            begin = mid + 1;
+            continue;
+        }
+    }
+    return 0;
+}
+
 int main(int argc, char* argv[]){
 
     int arr1[] = {1, 3, 5};
