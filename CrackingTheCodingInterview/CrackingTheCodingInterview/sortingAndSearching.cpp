@@ -203,6 +203,130 @@ void printDup(vector<int> vect){
     }
 }
 
+// given a square matrix with each row and column in increasing order, find the element with a specific value
+
+vector<int> findElementInMatrix(vector<vector<int> > matrix, int val){ // returns row and column of the element
+    int begin, end, mid;
+    begin = 0;
+    end = matrix.size();
+    vector<int> output(2, 0);
+    while(begin < end){
+        mid = (begin + end) / 2;
+        if(matrix[mid][mid] > val){
+            end = mid - 1;
+        }
+        else if(matrix[mid][mid] < val)
+            begin = mid + 1;
+        else{
+            output[0] = mid;
+            output[1] = mid;
+            return output;
+        }
+    }
+    if(matrix[end][end] > val)
+        end--;
+    int endHolder = end;
+    while(begin <= end){
+        mid = (begin + end) / 2;
+        if(matrix[endHolder][mid] > val)
+            end = mid - 1;
+        else if(matrix[endHolder][mid] < val)
+            begin = mid + 1;
+        else{
+            output[0] = endHolder;
+            output[1] = mid;
+            return output;
+        }
+    }
+    end = endHolder;
+    while(begin <= end){
+        mid = (begin + end) / 2;
+        if(matrix[mid][endHolder] > val)
+            end = mid - 1;
+        else if(matrix[mid][endHolder] < val)
+            begin = mid + 1;
+        else{
+            output[0] = mid;
+            output[1] = endHolder;
+            return output;
+        }
+    }
+    return output;
+}
+
+// output the rank of the number (the number of integers that is equal to or less than that number)
+
+struct Node{
+    Node* left;
+    Node* right;
+    int val;
+    int rank;
+};
+
+class BST{
+public:
+    BST(){
+        head = nullptr;
+    }
+    Node* getHead(){
+        return head;
+    }
+    void addNode(int val);
+    int getRank(int val);
+private:
+    Node* head;
+};
+
+void BST::addNode(int val){
+    Node* node = new Node;
+    node->val = val;
+    if(getHead() != nullptr){
+        node->rank = 0;
+        head = node;
+        return;
+    }
+    Node* temp = head;
+    int prevRank;
+    while(temp != nullptr){
+        if(temp->val <= val){
+            temp->rank++;
+            if(temp->left == nullptr){
+                temp->left = node;
+                node->rank = temp->rank - 1;
+               break;
+            }
+            temp = temp->left;
+        }
+        else{
+            prevRank = temp->rank;
+            if(temp->right == nullptr){
+                temp->right = node;
+                node->rank = temp->rank + 1;
+                break;
+            }
+            temp = temp->right;
+            temp->rank = prevRank + 1;
+        }
+    }
+}
+
+int BST::getRank(int val){
+    Node* temp = head;
+    while(temp != nullptr){
+        if(temp->val == val){
+            return temp->rank;
+        }
+        if(temp->val < val){
+            temp->left->rank = temp->rank - 1;
+        }
+        else{
+            temp->right->rank = temp->rank + 1;
+        }
+    }
+    return 0;
+    
+}
+
 int main(int argc, char* argv[]){
 
     int arr1[] = {1, 3, 5};
