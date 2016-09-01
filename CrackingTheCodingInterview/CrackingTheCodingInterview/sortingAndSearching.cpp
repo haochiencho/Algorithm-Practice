@@ -327,6 +327,46 @@ int BST::getRank(int val){
     
 }
 
+// valleys and peaks: sort the vector into alternating valleys and peaks
+
+vector<int> mergeSort(vector<int> vect, int begin, int end){
+    vector<int> temp;
+    if(begin == end){
+        temp.push_back(vect[begin]);
+        return temp;
+    }
+    int mid = (begin + end) / 2;
+    vector<int> left = mergeSort(vect, begin, mid);
+    vector<int> right = mergeSort(vect, mid + 1, end);
+    int i = 0;
+    int j = 0;
+    while(i + j < left.size() + right.size()){
+        if(i >= left.size()){
+            temp.push_back(left[j]);
+            j++;
+            continue;
+        }
+        if(j >= right.size()){
+            temp.push_back(right[i]);
+            i++;
+            continue;
+        }
+        if(left[i] <= right[j]){
+            temp.push_back(left[i]);
+            i++;
+        }
+        else{
+            temp.push_back(right[i]);
+            j++;
+        }
+    }
+    return temp;
+}
+
+void valleyPeakSort(vector<int> & vect){
+
+}
+
 int main(int argc, char* argv[]){
 
     int arr1[] = {1, 3, 5};
