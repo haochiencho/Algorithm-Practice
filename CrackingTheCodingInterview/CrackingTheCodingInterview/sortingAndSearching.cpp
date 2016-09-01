@@ -191,6 +191,18 @@ void sortStrings(vector<string> & vect){ // radix sort without additional memory
 
 }
 
+// find duplicates: print all duplicate elements in the array
+
+void printDup(vector<int> vect){
+    vector<int> hash(1000, 0);
+    for(int i = 0; i < vect.size(); i++){
+        if(hash[vect[i] / 8] & (1 << vect[i] % 8))
+            cout << vect[i] << endl;
+        else
+            hash[vect[i] / 8] |= 1 << vect[i] % 8;
+    }
+}
+
 int main(int argc, char* argv[]){
 
     int arr1[] = {1, 3, 5};
