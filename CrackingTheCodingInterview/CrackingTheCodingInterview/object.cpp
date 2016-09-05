@@ -134,7 +134,7 @@ public:
 private:
     bool free;
 };
-
+/*
 class Manager : public Employee{
 public:
     Manager(int diffCap, vector<Director> superior)
@@ -179,7 +179,7 @@ void Respondent::handleCall(Customer cust){
         free = true;
     }
 }
-
+*/
 
 // design a juke box with object oriented principles
 
@@ -196,6 +196,53 @@ private:
     vector<Song> song;
 };
 
+class Polygon{
+public:
+    Polygon(int numSides) : numSides(numSides){
+        
+    }
+    virtual void aboutMe();
+    virtual ~Polygon(){
+        cout << "deleting a polygon" << endl;
+    }
+private:
+    int numSides;
+};
+
+void Polygon::aboutMe(){
+    cout << "I am a polygon" << endl;
+}
+
+class Square : public Polygon{
+public:
+    Square(int numSides, int numLength) : Polygon(numSides), sideLength(numLength){
+        
+    }
+    void aboutMe();
+    ~Square(){
+        cout << "deleting a square" << endl;
+    }
+    Square operator+(Square &other);
+private:
+    int sideLength;
+};
+
+void Square::aboutMe(){
+    cout << "I am a square" << endl;
+}
+
+Square Square::operator+(Square &other){
+    Square square(4, 0);
+    square.sideLength = other.sideLength + this->sideLength;
+    return square;
+}
+
+
 int main(int argc, char* argv[]){
-    cout << "hello world!";
+    Square* newSquare = new Square(4, 5);
+    Square* square = new Square(4, 2);
+    
+    (*square) = (*newSquare + *square);
+    newSquare->aboutMe();
+    delete newSquare;
 }
