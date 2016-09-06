@@ -41,5 +41,20 @@ void printLines(string fileName, int k){
     }
 }
 
+// reversing a null terminal character array
+
+void reverseString(char* charString){
+    int counter = 0;
+    while(1){
+        if(charString[counter] == '\0')
+            break;
+    }
+    for(int i = 0; i < counter / 2; i++){
+        char temp = charString[i];
+        charString[i] = charString[counter - i - 1];
+        charString[counter - i - 1] = temp;
+    }
+}
+
 int main(int argc, char* argv[]){
 }
