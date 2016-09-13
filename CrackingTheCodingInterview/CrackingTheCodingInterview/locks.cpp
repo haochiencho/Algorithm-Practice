@@ -95,6 +95,34 @@ public:
 };
 */
 
+// implement the fizzbuzz game with 2 threads. print fizz if number is divisible by 3 and buzz if it is divisible by 5.
+pthread_mutex_t lock2 = PTHREAD_MUTEX_INITIALIZER;
+
+void* fizz(void* count){
+    int* ptr = (int*) count;
+    if((*ptr) % 3)
+        cout << "fizz";
+    pthread_mutex_unlock(&lock2);
+    return NULL;
+}
+
+void* buzz(void* count){
+    int* ptr = (int*) count;
+    pthread_mutex_lock(&lock2);
+    if(*(ptr) % 5)
+        cout << "buzz";
+    return NULL;
+}
+
+void fizzBuzz(int count){
+    pthread_t id[2];
+    pthread_mutex_lock(&lock2);
+    pthread_create(&(id[0]), NULL, &fizz, &count);
+    pthread_create(&(id[1]), NULL, &buzz, &count);
+    
+    
+}
+
 
 int main(int argc, char* argv[]){
     
