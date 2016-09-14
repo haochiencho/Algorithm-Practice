@@ -229,6 +229,80 @@ vector<int> smallestPair(vector<int> A, vector<int> B){
     return result;
 }
 
+// print an integer in english format
+// e.g. 1372 one thousand, three hundred seventy two
+
+int countCommas(int input){
+    int count = 0;
+    int i = 1;
+    while(i <= input){
+        count++;
+        i *= 1000;
+    }
+    return count;
+}
+
+void printNum(int digit){
+    switch(digit){
+        case 0:
+            cout << "zero ";
+            break;
+        case 1:
+            cout << "one ";
+            break;
+        case 2:
+            cout << "second ";
+            break;
+        case 3:
+            cout << "three ";
+            break;
+        case 4:
+            cout << "four ";
+            break;
+        case 5:
+            cout << "five ";
+            break;
+        case 6:
+            cout << "six ";
+            break;
+        case 7:
+            cout << "seven ";
+            break;
+        case 8:
+            cout << "eight ";
+            break;
+        case 9:
+            cout << "nine ";
+            break;
+    }
+}
+
+void print3digit(int num){
+    int single, ten, hundred;
+    single = num % 10;
+    num /= 10;
+    ten = num % 10;
+    num /= 10;
+    hundred = num % 10;
+    printNum(hundred);
+    cout << "hundred ";
+    printNum(ten);
+    cout << "ten ";
+    printNum(single);
+    
+}
+
+void printInt(int input){
+    int n = countCommas(input);
+    int div = 1000 * (n - 1);
+    for(int i = n - 1; i >= 0; i--){
+        int temp = input / div;
+        temp %= 1000;
+        print3digit(temp);
+        div /= 1000;
+    }
+}
+
 int main(int argc, char* argv[]){
     int a = 5;
     int b = 9;
