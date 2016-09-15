@@ -229,6 +229,20 @@ vector<int> smallestPair(vector<int> A, vector<int> B){
     return result;
 }
 
+// return the max of two numbers without using an if else statement or any sort of comparsion operator.
+
+int max(int A, int B){
+    int dif = A - B;
+    int mask = 1 << 31;
+    dif &= mask; // nonzero if B > A, 0 if A >= B
+    dif = dif >> 31;
+    int dif2 = B - A;
+    dif2 &= mask;
+    dif2 = dif2 >> 31;
+    int same = (!(A ^ B)) * -1;
+    return (B & dif) + (A & dif2) + (same & A);
+}
+
 // print an integer in english format
 // e.g. 1372 one thousand, three hundred seventy two
 
@@ -303,11 +317,74 @@ void printInt(int input){
     }
 }
 
+// Opertions: create multiply, divide, subtract operations on integer operands with only the addition operator
+
+int mult2pos(int A, int B){
+    int output = 0;
+    if(A > B){
+        for(int i = 0; i < B; i++){
+            output += A;
+        }
+    }
+    else{
+        for(int i = 0; i < A; i++){
+            output += B;
+        }
+    }
+    return output;
+}
+
+void inverse(int A){
+    
+}
+
+int mult(int A, int B){
+    int output = 0;
+    if(A == 0 || B == 0)
+        return 0;
+    if(A > 0 && B > 0){
+        output = mult2pos(A, B);
+    }
+    else if(A < 0 && B > 0){
+        A *= -1;
+        output = mult2pos(A, B);
+        output *= -1;
+    }
+    else if(A > 0 && B < 0){
+        B *= -1;
+        output = mult2pos(A, B);
+        output *= -1;
+    }
+    else{
+        A *= -1;
+        B *= -1;
+        output = mult2pos(A, B);
+    }
+    return output;
+}
+
+int sub(int A, int B){ // A - B
+    return A + mult(B, -1);
+}
+
+int division(int A, int B){ // A / B
+    int count = 0;
+    int inc = B;
+    while(B < A){
+        B += inc;
+        count++;
+    }
+    return count;
+}
+
+
+
 int main(int argc, char* argv[]){
     int a = 5;
     int b = 9;
     swap(a, b);
     intersect(0, 0, 1, 1, 2, 0, 1, 1);
     numZeroes(30);
+    int c = max(15, 15);
     
 }
