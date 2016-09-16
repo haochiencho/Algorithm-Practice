@@ -377,7 +377,173 @@ int division(int A, int B){ // A / B
     return count;
 }
 
+// give K pieces of wood, with two possible lengths, output all possible lengths of the board
 
+vector<int> allPoss(int shorter, int longer, int K){
+    vector<int> output;
+    output.push_back(shorter * K);
+    if(shorter == longer)
+        return output;
+    int dif;
+    if(longer > shorter)
+        dif = longer - shorter;
+    else
+        dif = shorter - longer;
+    int length = shorter * K;
+    for(int i = 1; i < K; i++){
+        length += dif;
+        output.push_back(length);
+    }
+    return output;
+}
+
+// xml word processing. replace each word with apprpriate values
+
+struct node{
+    int val;
+    string map;
+    node* left;
+    node* right;
+};
+
+class xmlMap{
+public:
+    xmlMap(){
+        vector<node*> temp(26);
+        vect = temp;
+    }
+    void addKey(string key, int val);
+    int findKey(string key);
+private:
+    vector<node*> vect;
+};
+
+void xmlMap::addKey(string key, int val){
+    node* ptr = new node;
+    ptr->map = key;
+    ptr->val = val;
+    ptr->left = nullptr;
+    ptr->right = nullptr;
+    if(vect[key[0] - 'A'] == nullptr){
+        vect[key[0] - 'A'] = ptr;
+        return;
+    }
+    node* itr = vect[key[0] - 'A'];
+    node* oneBehind = itr;
+    while(itr != nullptr){
+        oneBehind = itr;
+        if(itr->map == key)
+            return;
+        else if(itr->map < key)
+            itr = itr->right;
+        else
+            itr = itr->left;
+    }
+    if(oneBehind->map < key)
+        oneBehind->right = ptr;
+    else
+        oneBehind->left = ptr;
+}
+
+// in a 2d plane, given a vector of points, output the line that passes through the maximum number of points
+
+struct PairNode{
+    int x1;
+    int y1;
+    int x2;
+    int y2;
+    int slope;
+    int y_intercept;
+    int x_intercept = 0; // always zero unless pair forms a vertical line
+};
+
+class Pair{
+public:
+    Pair(vector<vector<int> > vect): points(vect){}
+    bool greaterThan(PairNode A, PairNode B);
+    vector<PairNode> mergeSort(vector<PairNode>, int start, int end);
+    void createPairs();
+    PairNode getLine(vector<PairNode> sortedPoints);
+private:
+    vector<vector<int> > points;
+    vector<PairNode> pairs;
+};
+
+bool Pair::greaterThan(PairNode A, PairNode B){
+    if(A.slope > B.slope)
+        return true;
+    else
+        return false;
+}
+
+vector<PairNode> Pair::mergeSort(vector<PairNode> input, int start, int end){
+    vector<PairNode> vect;
+    if(start == end){
+        vect.push_back(input[start]);
+        return vect;
+    }
+    int mid = (start + end) / 2;
+    vector<PairNode> left = mergeSort(input, start, mid);
+    vector<PairNode> right = mergeSort(input, mid + 1, end);
+    int n = left.size();
+    int m = right.size();
+    int i, j;
+    i = 0;
+    j = 0;
+    while(i + j < n + m){
+        if(i >= n){
+            vect.push_back(right[j]);
+            j++;
+            continue;
+        }
+        if(j >= m){
+            vect.push_back(left[i]);
+            i++;
+            continue;
+        }
+        if(greaterThan(left[i], right[j])){
+            vect.push_back(right[j]);
+            j++;
+        }
+        else{
+            vect.push_back(left[i]);
+            i++;
+        }
+    }
+    return vect;
+}
+
+void Pair::createPairs(){
+    for(int i = 0; i < points.size(); i++){
+        for(int j = i + 1; j < points.size(); j++){
+            PairNode* ptr = new PairNode;
+            ptr->x1 = points[i][0];
+            ptr->y1 = points[i][1];
+            ptr->x2 = points[j][0];
+            ptr->y2 = points[j][1];
+            ptr->slope = (ptr->y2 - ptr->y1) / (ptr->x2 - ptr->x1);
+            if(ptr->x1 - ptr->x2 == 0){
+                ptr->y_intercept = INT_MAX;
+                ptr->x_intercept = ptr->x1;
+            }
+            else{
+                ptr->y_intercept = ptr->y1 - ptr->x1 * ptr->slope;
+            }
+        }
+    }
+}
+
+PairNode Pair::getLine(vector<PairNode> sortedPoints){
+    int curCount, curSlope;
+    PairNode output;
+    for(int i = 0; i < sortedPoints.size(); i++){
+        if(curSlope != sortedPoints[i].slope){
+            curCount = 1;
+            curSlope = sortedPoints[i].slope;
+        }
+    }
+    return output;
+}
 
 int main(int argc, char* argv[]){
     int a = 5;
