@@ -545,6 +545,37 @@ PairNode Pair::getLine(vector<PairNode> sortedPoints){
     return output;
 }
 
+// mastermind: return the number of hits and pseudo hits
+
+vector<int> mastermind(string computer, string guess){ // vectors contains hits following by psuedo hits
+    map<char, int> colorMap;
+    colorMap['R'] = 0;
+    colorMap['G'] = 1;
+    colorMap['B'] = 2;
+    vector<int> hash(3, 0);
+    for(int i = 0; computer.length(); i++){
+        hash[colorMap[computer[i]]]++;
+    }
+    int hit = 0;
+    int psuedoHit = 0;
+    for(int i = 0; i < guess.length(); i++){
+        if(guess[i] == computer[i]){
+            hit++;
+            hash[colorMap[computer[i]]]--;
+        }
+        else{
+            if(colorMap[guess[i]] > 0){
+                psuedoHit++;
+                hash[colorMap[guess[i]]]--;
+            }
+        }
+    }
+    vector<int> output(2);
+    output[0] = hit;
+    output[1] = psuedoHit;
+    return output;
+}
+
 int main(int argc, char* argv[]){
     int a = 5;
     int b = 9;
