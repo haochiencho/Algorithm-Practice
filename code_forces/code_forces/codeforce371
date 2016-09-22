@@ -1,0 +1,213 @@
+//
+//  main.cpp
+//  codeforce371
+//
+//  Created by Brian Cho on 9/21/16.
+//  Copyright © 2016 Cho. All rights reserved.
+//
+
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <string>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <map>
+#include <set>
+#include <math.h>
+using namespace std;
+
+/*
+long long max(long long A, long long B){
+    if(A > B)
+        return A;
+    else
+        return B;
+}
+
+long long min(long long a, long long b){
+    if(b < a)
+        return b;
+    else
+        return a;
+}
+
+int main(int argc, const char * argv[]) {
+    long long l1, r1, l2, r2, k;
+    cin >> l1 >> r1 >> l2 >> r2 >> k;
+    long long bot = max(l1, l2);
+    long long top = min(r1, r2);
+    long long total = top - bot + 1;
+    if(k >= bot && k <= top)
+        total--;
+    if(total <= 0)
+        cout << "0" << endl;
+    else
+        cout << total << endl;
+    return 0;
+}
+ */
+
+/*
+int main(int argc, const char * argv[]){
+    int n;
+    cin >> n;
+    int curMax = INT_MIN;
+    int curMin = INT_MAX;
+    vector<int> vect;
+    vector<int> newVal;
+    for(int i = 0; i < n; i++){
+        int temp;
+        cin >> temp;
+        vect.push_back(temp);
+        if(temp > curMax)
+            curMax = temp;
+        if(temp < curMin)
+            curMin = temp;
+        if(newVal.size() < 3){
+            bool isTrue = false;
+            for(int i = 0; i < newVal.size(); i++){
+                if(newVal[i] == temp)
+                    isTrue = true;
+            }
+            if(!isTrue)
+                newVal.push_back(temp);
+        }
+    }
+    if(newVal.size() < 3){
+        cout << "YES" << endl;
+        return 0;
+    }
+    int x = (curMax - curMin) / 2;
+    int mid = (curMax + curMin) / 2;
+    
+    for(int i = 0; i < vect.size(); i++){
+        if(vect[i] > mid)
+            vect[i] -= x;
+        else if(vect[i] < mid)
+            vect[i] += x;
+    }
+    int val = vect[0];
+    for(int i = 1; i < vect.size(); i++){
+        if(val != vect[i]){
+            cout << "NO" << endl;
+            return 0;
+        }
+    }
+    cout << "YES" << endl;
+    
+}
+*/
+
+struct Node{
+    long long val;
+    int count = 1;
+};
+
+void binaryInsert(vector<Node> &vect, long long val){
+    Node* newNode = new Node;
+    newNode->val = val;
+    if(vect.size() == 0){
+        vect.push_back(*newNode);
+        return;
+    }
+    int start = 0;
+    int end = vect.size() - 1;
+    int mid;
+    while(start <= end){
+        mid = (start + end) / 2;
+        if(vect[mid].val == val){
+            vect[mid].count++;
+            return;
+        }
+        if(start == end && vect[mid].val > val){
+            vect.insert(vect.begin() + mid, *newNode);
+            return;
+        }
+        if(start == end && vect[mid].val < val){
+            vect.insert(vect.begin() + (mid + 1), *newNode);
+            return;
+        }
+        if(val > vect[mid].val){
+            start = mid + 1;
+        }
+        else
+            end = mid;
+    }
+}
+
+void binaryDelete(vector<Node> &vect, long long val){
+    int start = 0;
+    int end = vect.size() - 1;
+    int mid;
+    while(start <= end){
+        mid = (start + end) / 2;
+        if(vect[mid].val == val){
+            vect[mid].count--;
+            if(vect[mid].count == 0)
+                vect.erase(vect.begin() + mid);
+            return;
+        }
+        if(val > vect[mid].val){
+            start = mid + 1;
+        }
+        else
+            end = mid;
+    }
+}
+
+int getCount(vector<Node> &vect, long long val){
+    int start = 0;
+    int end = vect.size() - 1;
+    int mid;
+    while(start <= end){
+        mid = (start + end) / 2;
+        if(vect[mid].val == val){
+            return vect[mid].count;
+        }
+        if(val > vect[mid].val){
+            start = mid + 1;
+        }
+        else
+            end = mid;
+    }
+    return 0;
+}
+
+long long convertPat(long long val){
+    string input = to_string(val);
+    for(int i = 0; i < input.length(); i++){
+        if((int)input[i] % 2 == 0)
+            input[i] = '0';
+        else
+            input[i] = '1';
+    }
+    long long output = 0;
+    for(int i = 0; i < input.length(); i++){
+        output +=  pow(2.0, i) * (input[input.length() - i - 1] - '0');
+    }
+    return output;
+}
+
+int main(int argc, char * argv[]){
+    int n;
+    cin >> n;
+    char operation;
+    long long val;
+    vector<int> hash(pow(2.0, 19.0), 0);
+    vector<Node> vect;
+    vector<Node> pattern;
+    for(int i = 0; i < n; i++){
+        cin >> operation >> val;
+        if(operation == '+'){
+            hash[convertPat(val)]++;
+        }
+        else if(operation == '-'){
+            hash[convertPat(val)]--;
+        }
+        else{
+            cout << hash[convertPat(val)] << endl;
+        }
+    }
+}
