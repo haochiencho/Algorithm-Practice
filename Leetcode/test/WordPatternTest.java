@@ -19,5 +19,4 @@ class WordPatternTest {
 
         assertFalse(WordPattern.wordPattern(pattern2, str2));
     }
-
 }
